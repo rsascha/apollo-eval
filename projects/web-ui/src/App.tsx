@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import {
+  TeacherManagement,
+  CourseManagement,
+  StudentManagement,
+  LessonManagement,
+  EnrollmentManagement,
+  LessonProgressManagement,
+} from "@/components";
+import "./App.css";
+
+type TabType =
+  | "teachers"
+  | "courses"
+  | "students"
+  | "lessons"
+  | "enrollments"
+  | "progress";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState<TabType>("teachers");
+
+  const tabs = [
+    { id: "teachers" as const, label: "Teachers", icon: "👨‍🏫" },
+    { id: "courses" as const, label: "Courses", icon: "📚" },
+    { id: "students" as const, label: "Students", icon: "👨‍🎓" },
+    { id: "lessons" as const, label: "Lessons", icon: "📝" },
+    { id: "enrollments" as const, label: "Enrollments", icon: "📋" },
+    { id: "progress" as const, label: "Progress", icon: "📊" },
+  ];
+
+  const renderActiveComponent = () => {
+    switch (activeTab) {
+      case "teachers":
+        return <TeacherManagement />;
+      case "courses":
+        return <CourseManagement />;
+      case "students":
+        return <StudentManagement />;
+      case "lessons":
+        return <LessonManagement />;
+      case "enrollments":
+        return <EnrollmentManagement />;
+      case "progress":
+        return <LessonProgressManagement />;
+      default:
+        return <TeacherManagement />;
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <div className="app">
+      <header className="app-header">
+        <h1>🎓 Learning Management System</h1>
+        <p>Manage teachers, courses, students, and track learning progress</p>
+      </header>
+
+      <nav className="app-nav">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            className={`nav-tab ${activeTab === tab.id ? "active" : ""}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            <span className="icon">{tab.icon}</span>
+            <span className="label">{tab.label}</span>
+          </button>
+        ))}
+      </nav>
+
+      <main className="app-main">{renderActiveComponent()}</main>
+
+      <footer className="app-footer">
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Learning Management System • Built with React, Apollo GraphQL &
+          TypeScript
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      </footer>
+    </div>
+  );
 }
 
-export default App
+export default App;

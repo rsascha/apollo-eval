@@ -1,22 +1,27 @@
 {
-  "name": "api",
+  "name": "@apollo-eval/api",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "npx tsx --watch src/server.ts"
+    "dev": "npx tsx --watch-path=src/ src/server.ts",
+    "start": "npx tsx src/server.ts",
+    "create-db": "NODE_OPTIONS=--experimental-sqlite npx tsx src/database/create-db.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
+    "@apollo-eval/shared": "workspace:*",
     "@apollo/server": "^4.12.2",
     "graphql": "^16.11.0"
   },
   "devDependencies": {
+    "@types/node": "^24.0.14",
     "tsx": "^4.20.3",
-    "@types/node": "^24.0.14"
+    "typescript": "~5.8.3"
   }
 }
