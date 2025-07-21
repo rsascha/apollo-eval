@@ -3,8 +3,9 @@ clean:
 
 dev: 
 	npx concurrently \
-		-n SHD,API,WEB \
-		-c yellow,cyan,green \
+		-n SHD,GEN,API,WEB \
+		-c yellow,cyan,green,blue \
 		"pnpm --filter @apollo-eval/shared dev" \
+		"pnpm --filter @apollo-eval/api codegen:watch" \
 		"pnpm --filter @apollo-eval/api dev" \
 		"pnpm --filter @apollo-eval/web-ui dev" 

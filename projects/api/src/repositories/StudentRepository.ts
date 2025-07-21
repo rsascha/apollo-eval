@@ -8,7 +8,7 @@ export interface Student {
 
 export interface CreateStudentInput {
   name: string;
-  email?: string;
+  email: string;
 }
 
 export class StudentRepository {
