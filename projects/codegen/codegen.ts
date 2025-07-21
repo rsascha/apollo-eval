@@ -4,7 +4,12 @@ const config: CodegenConfig = {
   schema: "http://localhost:4000/graphql",
   documents: "../web-ui-2/src/**/*.tsx",
   generates: {
-    "./src/types.ts": { plugins: ["typescript", "typescript-operations"] },
+    "../web-ui-2/src/types.ts": {
+      plugins: ["typescript", "typescript-operations"],
+    },
+    "../api/src/types.ts": {
+      plugins: ["typescript", "typescript-resolvers"],
+    },
   },
 };
 export default config;
