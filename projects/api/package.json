@@ -9,8 +9,8 @@
     "start": "npx tsx src/server.ts",
     "create-db": "NODE_OPTIONS=--experimental-sqlite npx tsx src/database/create-db.ts",
     "build": "tsc",
-    "codegen": "graphql-codegen --config codegen.yaml",
-    "codegen:watch": "graphql-codegen --config codegen.yaml --watch"
+    "codegen": "graphql-codegen",
+    "codegen:watch": "graphql-codegen --watch"
   },
   "keywords": [],
   "author": "",
