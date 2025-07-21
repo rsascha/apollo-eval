@@ -1,5 +1,5 @@
 {
-  "name": "@apollo-eval/web-ui",
+  "name": "web-ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,10 +11,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
-    "graphql": "^16.11.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "@apollo-eval/shared": "workspace:*"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
@@ -27,7 +25,6 @@
     "globals": "^16.3.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.4",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite": "^7.0.4"
   }
 }

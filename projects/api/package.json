@@ -8,26 +8,19 @@
     "dev": "npx tsx --watch-path=src/ src/server.ts",
     "start": "npx tsx src/server.ts",
     "create-db": "NODE_OPTIONS=--experimental-sqlite npx tsx src/database/create-db.ts",
-    "build": "tsc",
-    "codegen": "graphql-codegen",
-    "codegen:watch": "graphql-codegen --watch"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "@apollo-eval/shared": "workspace:*",
     "@apollo/server": "^4.12.2",
     "@graphql-tools/load-files": "^7.0.1",
     "@graphql-tools/merge": "^9.1.1",
     "graphql": "^16.11.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.7",
-    "@graphql-codegen/typescript": "^4.1.6",
-    "@graphql-codegen/typescript-resolvers": "^4.5.1",
-    "@parcel/watcher": "^2.5.1",
     "@types/node": "^24.0.14",
     "tsx": "^4.20.3",
     "typescript": "~5.8.3"
