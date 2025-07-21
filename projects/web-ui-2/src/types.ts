@@ -23,7 +23,7 @@ export type Movie = {
 export type Query = {
   __typename?: 'Query';
   movie?: Maybe<Movie>;
-  movies: Array<Movie>;
+  movies?: Maybe<Array<Maybe<Movie>>>;
 };
 
 
@@ -34,4 +34,4 @@ export type QueryMovieArgs = {
 export type GetMoviesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMoviesQuery = { __typename?: 'Query', movies: Array<{ __typename?: 'Movie', id: string, title: string }> };
+export type GetMoviesQuery = { __typename?: 'Query', movies?: Array<{ __typename?: 'Movie', id: string, title: string } | null> | null };

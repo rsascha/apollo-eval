@@ -4,5 +4,6 @@ type Query {
 }
 
 type Movie {
-  title: String
+  id: ID!
+  title: String!
 }

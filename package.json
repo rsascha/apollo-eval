@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "dev": "make dev"
+    "dev": "pnpm --recursive --parallel run dev",
+    "dev:api": "pnpm --filter @apollo-eval/api dev",
+    "dev:web": "pnpm --filter @apollo-eval/web-ui dev"
   },
   "dependencies": {
     "concurrently": "^9.2.0"

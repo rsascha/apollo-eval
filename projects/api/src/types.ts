@@ -25,7 +25,7 @@ export type Movie = {
 export type Query = {
   __typename?: 'Query';
   movie?: Maybe<Movie>;
-  movies: Array<Movie>;
+  movies?: Maybe<Array<Maybe<Movie>>>;
 };
 
 
@@ -128,7 +128,7 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   movie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryMovieArgs, 'id'>>;
-  movies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
+  movies?: Resolver<Maybe<Array<Maybe<ResolversTypes['Movie']>>>, ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
