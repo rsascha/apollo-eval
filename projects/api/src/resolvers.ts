@@ -1,8 +1,38 @@
+import { getDatabaseConnection } from "./database";
+
+const db = getDatabaseConnection();
+
+interface DatabaseMovie {
+  id: number;
+  title: string;
+}
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS movies (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL
+  );
+  -- Insert some dummy data
+  INSERT INTO movies (id, title) VALUES
+    (1, 'Inception'),
+    (2, 'The Matrix'),
+    (3, 'John Wick'), 
+    (4, 'The Dark Knight')
+  ON CONFLICT(id) DO NOTHING;
+`);
+
 const movies = [
   { id: "1", title: "Inception", actorIds: ["1", "3"] },
   { id: "2", title: "The Matrix", actorIds: ["2"] },
   { id: "3", title: "John Wick", actorIds: ["2"] },
 ];
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS actors (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL
+  )
+`);
 
 const actors = [
   { id: "1", name: "Leonardo DiCaprio", movieIds: ["1"] },
@@ -10,9 +40,29 @@ const actors = [
   { id: "3", name: "Marion Cotillard", movieIds: ["1"] },
 ];
 
+db.exec(`
+  CREATE TABLE IF NOT EXISTS movies_actors (
+    movie_id TEXT,
+    actor_id TEXT,
+    PRIMARY KEY (movie_id, actor_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id),
+    FOREIGN KEY (actor_id) REFERENCES actors(id)
+  )
+`);
+
 export const resolvers = {
   Query: {
-    movies: () => movies,
+    movies: () => {
+      const dbResult = db
+        .prepare("SELECT id, title FROM movies")
+        .all() as DatabaseMovie[];
+      const result = dbResult.map((movie) => ({
+        id: movie.id.toString(),
+        title: movie.title,
+      }));
+      console.debug("Movies from database:", result);
+      return result;
+    },
     actors: () => actors,
     movie: (_: any, { id }: { id: string }) =>
       movies.find((movie) => movie.id === id),
