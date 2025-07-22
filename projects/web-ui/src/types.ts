@@ -69,3 +69,8 @@ export type GetMoviesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetMoviesQuery = { __typename?: 'Query', movies?: Array<{ __typename?: 'Movie', id: string, title: string } | null> | null };
+
+export type GetMoviesWithActorsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMoviesWithActorsQuery = { __typename?: 'Query', movies?: Array<{ __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } | null> | null };

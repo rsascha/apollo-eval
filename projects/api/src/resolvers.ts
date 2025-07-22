@@ -21,12 +21,6 @@ db.exec(`
   ON CONFLICT(id) DO NOTHING;
 `);
 
-// const movies = [
-//   { id: "1", title: "Inception", actorIds: ["1", "3"] },
-//   { id: "2", title: "The Matrix", actorIds: ["2"] },
-//   { id: "3", title: "John Wick", actorIds: ["2"] },
-// ];
-
 interface DatabaseActor {
   id: string;
   name: string;
@@ -44,12 +38,6 @@ db.exec(`
     ('3', 'Marion Cotillard')
   ON CONFLICT(id) DO NOTHING;
 `);
-
-// const actors = [
-//   { id: "1", name: "Leonardo DiCaprio", movieIds: ["1"] },
-//   { id: "2", name: "Keanu Reeves", movieIds: ["2", "3"] },
-//   { id: "3", name: "Marion Cotillard", movieIds: ["1"] },
-// ];
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS movies_actors (
@@ -103,8 +91,20 @@ export const resolvers = {
       };
       return result;
     },
+    actor: (_: any, { id }: { id: string }) => {
+      const dbResult = db
+        .prepare("SELECT id, name FROM actors WHERE id = ?")
+        .get(id) as DatabaseActor | undefined;
+      if (!dbResult) {
+        return null;
+      }
+      const result = {
+        id: dbResult.id,
+        name: dbResult.name,
+      };
+      return result;
+    },
   },
-
   Movie: {
     actors: (parent: any) => {
       const dbResult = db
@@ -124,10 +124,23 @@ export const resolvers = {
       }));
     },
   },
+  Actor: {
+    movies: (parent: any) => {
+      const dbResult = db
+        .prepare(
+          `
+          SELECT m.id, m.title 
+          FROM movies m
+          JOIN movies_actors ma ON m.id = ma.movie_id
+          WHERE ma.actor_id = ?
+        `
+        )
+        .all(parent.id) as DatabaseMovie[];
 
-  // Actor: {
-  //   movies: (parent: any) => {
-  //     return movies.filter((movie) => parent.movieIds.includes(movie.id));
-  //   },
-  // },
+      return dbResult.map((movie) => ({
+        id: movie.id.toString(),
+        title: movie.title,
+      }));
+    },
+  },
 };

@@ -3,3 +3,4 @@ export * from "./ActorDetail";
 export * from "./Home";
 export * from "./MovieDetail";
 export * from "./Movies";
+export * from "./MoviesWithActors";

@@ -16,6 +16,12 @@ export function Navigation() {
         Movies
       </Link>
       <Link
+        to="/movies-with-actors"
+        className="mr-4 text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        Movies with Actors
+      </Link>
+      <Link
         to="/actors"
         className="text-blue-600 hover:text-blue-800 transition-colors"
       >
