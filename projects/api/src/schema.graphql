@@ -1,18 +1,18 @@
 type Query {
   movies: [Movie]
-  actors: [Actor]
+  #   actors: [Actor]
   movie(id: ID!): Movie
-  actor(id: ID!): Actor
+  #   actor(id: ID!): Actor
 }
 
 type Movie {
   id: ID!
   title: String!
-  actors: [Actor!]!
+  # actors: [Actor!]!
 }
 
-type Actor {
-  id: ID!
-  name: String!
-  movies: [Movie!]!
-}
+# type Actor {
+#   id: ID!
+#   name: String!
+#   # movies: [Movie!]!
+# }

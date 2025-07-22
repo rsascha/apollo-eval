@@ -60,25 +60,35 @@ export const resolvers = {
         id: movie.id.toString(),
         title: movie.title,
       }));
-      console.debug("Movies from database:", result);
       return result;
     },
-    actors: () => actors,
-    movie: (_: any, { id }: { id: string }) =>
-      movies.find((movie) => movie.id === id),
-    actor: (_: any, { id }: { id: string }) =>
-      actors.find((actor) => actor.id === id),
+    // actors: () => actors,
+    movie: (_: any, { id }: { id: string }) => {
+      const dbResult = db
+        .prepare("SELECT id, title FROM movies WHERE id = ?")
+        .get(id) as DatabaseMovie | undefined;
+      if (!dbResult) {
+        return null;
+      }
+      const result = {
+        id: dbResult.id.toString(),
+        title: dbResult.title,
+      };
+      return result;
+    },
+    // actor: (_: any, { id }: { id: string }) =>
+    //   actors.find((actor) => actor.id === id),
   },
 
-  Movie: {
-    actors: (parent: any) => {
-      return actors.filter((actor) => parent.actorIds.includes(actor.id));
-    },
-  },
+  // Movie: {
+  //   actors: (parent: any) => {
+  //     return actors.filter((actor) => parent.actorIds.includes(actor.id));
+  //   },
+  // },
 
-  Actor: {
-    movies: (parent: any) => {
-      return movies.filter((movie) => parent.movieIds.includes(movie.id));
-    },
-  },
+  // Actor: {
+  //   movies: (parent: any) => {
+  //     return movies.filter((movie) => parent.movieIds.includes(movie.id));
+  //   },
+  // },
 };
