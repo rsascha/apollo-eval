@@ -7,9 +7,30 @@
 Modify the following files:
 
 1. `api/src/schema.graphql`
-2. `api/src/resolvers.ts`
+1. `api/src/resolvers.ts`
 
-Use the Apollo Server playground at: http://localhost:4000/
+_Use the Apollo Server playground at: [http://localhost:4000/](http://localhost:4000/)_
+
+Sample Code:
+
+```graphql
+type Query {
+  actors: [Actor]
+}
+
+type Actor {
+  id: ID!
+  name: String!
+}
+```
+
+```ts
+export const resolvers = {
+  Query: {
+    actors: () => actors,
+  },
+};
+```
 
 The following files are auto-generated:
 
@@ -18,17 +39,30 @@ The following files are auto-generated:
 
 ### Web UI
 
-Modify: `web-ui/src/queries`
+Modify:
 
-Use the Apollo Server playground at: http://localhost:4000/
+- `web-ui/src/queries`
+
+_Use the Apollo Server playground at: [http://localhost:4000/](http://localhost:4000/)_
+
+Sample Code:
+
+```graphql
+query GetActors {
+  actors {
+    id
+    name
+  }
+}
+```
 
 The following file is auto-generated:
 
-- web-ui/src/types.ts
+- `web-ui/src/types.ts`
 
 Modify the your component.
 
-Sample:
+Sample Code:
 
 ```tsx
 import GET_ACTORS_QUERY from "@/queries/GetActors.graphql";
