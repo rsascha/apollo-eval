@@ -25,7 +25,7 @@ export function AddMovie() {
     onCompleted: (data) => {
       navigate(`/movies/${data.addMovie.id}`);
     },
-    refetchQueries: [{ query: GET_MOVIES_QUERY }],
+    refetchQueries: [{ query: GET_MOVIES_QUERY }, { query: GET_ACTORS_QUERY }],
   });
 
   function handleActorToggle(actorId: string) {

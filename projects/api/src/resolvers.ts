@@ -1,4 +1,4 @@
-import { getDatabaseConnection } from "./database";
+import { getDatabaseConnection } from "@/getDatabaseConnection";
 
 const db = getDatabaseConnection();
 
