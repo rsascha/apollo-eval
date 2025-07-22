@@ -1,6 +1,6 @@
 type Query {
   movies: [Movie]
-  #   actors: [Actor]
+  actors: [Actor]
   movie(id: ID!): Movie
   #   actor(id: ID!): Actor
 }

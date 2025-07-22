@@ -80,7 +80,16 @@ export const resolvers = {
       }));
       return result;
     },
-    // actors: () => actors,
+    actors: () => {
+      const dbResult = db
+        .prepare("SELECT id, name FROM actors")
+        .all() as DatabaseActor[];
+      const result = dbResult.map((actor) => ({
+        id: actor.id,
+        name: actor.name,
+      }));
+      return result;
+    },
     movie: (_: any, { id }: { id: string }) => {
       const dbResult = db
         .prepare("SELECT id, title FROM movies WHERE id = ?")
@@ -94,8 +103,6 @@ export const resolvers = {
       };
       return result;
     },
-    // actor: (_: any, { id }: { id: string }) =>
-    //   actors.find((actor) => actor.id === id),
   },
 
   Movie: {
