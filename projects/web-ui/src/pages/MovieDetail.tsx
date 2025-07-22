@@ -18,14 +18,16 @@ export function MovieDetail() {
     skip: !id,
   });
 
-  if (loading) return <div>Loading movie...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!data?.movie) return <div>Movie not found</div>;
+  if (loading) return <div className="p-8 text-gray-600">Loading movie...</div>;
+  if (error)
+    return <div className="p-8 text-red-600">Error: {error.message}</div>;
+  if (!data?.movie)
+    return <div className="p-8 text-gray-600">Movie not found</div>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>{data.movie.title}</h1>
-      <p>Movie ID: {data.movie.id}</p>
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-4">{data.movie.title}</h1>
+      <p className="text-gray-600">Movie ID: {data.movie.id}</p>
     </div>
   );
 }

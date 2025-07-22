@@ -2,11 +2,19 @@ import { Link } from "react-router-dom";
 
 export function Navigation() {
   return (
-    <nav style={{ padding: "1rem", borderBottom: "1px solid #ccc" }}>
-      <Link to="/" style={{ marginRight: "1rem" }}>
+    <nav className="p-4 border-b border-gray-300">
+      <Link
+        to="/"
+        className="mr-4 text-blue-600 hover:text-blue-800 transition-colors"
+      >
         Home
       </Link>
-      <Link to="/movies">Movies</Link>
+      <Link
+        to="/movies"
+        className="text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        Movies
+      </Link>
     </nav>
   );
 }
