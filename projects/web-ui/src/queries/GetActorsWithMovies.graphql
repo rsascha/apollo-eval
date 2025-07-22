@@ -1,0 +1,10 @@
+query GetActorsWithMovies {
+  actors {
+    id
+    name
+    movies {
+      id
+      title
+    }
+  }
+}

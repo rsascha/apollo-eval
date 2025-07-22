@@ -3,6 +3,7 @@ import { Navigation } from "@/components";
 import {
   Actors,
   ActorDetail,
+  ActorsWithMovies,
   Home,
   MovieDetail,
   Movies,
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/movies-with-actors" element={<MoviesWithActors />} />
           <Route path="/movies/:id" element={<MovieDetail />} />
           <Route path="/actors" element={<Actors />} />
+          <Route path="/actors-with-movies" element={<ActorsWithMovies />} />
           <Route path="/actors/:id" element={<ActorDetail />} />
         </Routes>
       </main>
