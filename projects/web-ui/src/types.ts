@@ -21,11 +21,26 @@ export type Actor = {
   name: Scalars['String']['output'];
 };
 
+export type AddMovieInput = {
+  actorIds: Array<Scalars['ID']['input']>;
+  title: Scalars['String']['input'];
+};
+
 export type Movie = {
   __typename?: 'Movie';
   actors: Array<Actor>;
   id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  addMovie: Movie;
+};
+
+
+export type MutationAddMovieArgs = {
+  input: AddMovieInput;
 };
 
 export type Query = {
@@ -45,6 +60,13 @@ export type QueryActorArgs = {
 export type QueryMovieArgs = {
   id: Scalars['ID']['input'];
 };
+
+export type AddMovieMutationVariables = Exact<{
+  input: AddMovieInput;
+}>;
+
+
+export type AddMovieMutation = { __typename?: 'Mutation', addMovie: { __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } };
 
 export type GetActorQueryVariables = Exact<{
   id: Scalars['ID']['input'];

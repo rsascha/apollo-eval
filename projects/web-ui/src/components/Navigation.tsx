@@ -22,6 +22,12 @@ export function Navigation() {
         Movies with Actors
       </Link>
       <Link
+        to="/add-movie"
+        className="mr-4 text-green-600 hover:text-green-800 transition-colors font-medium"
+      >
+        + Add Movie
+      </Link>
+      <Link
         to="/actors"
         className="mr-4 text-blue-600 hover:text-blue-800 transition-colors"
       >

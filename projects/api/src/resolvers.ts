@@ -26,6 +26,11 @@ interface DatabaseActor {
   name: string;
 }
 
+interface AddMovieInput {
+  title: string;
+  actorIds: string[];
+}
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS actors (
     id TEXT PRIMARY KEY,
@@ -103,6 +108,32 @@ export const resolvers = {
         name: dbResult.name,
       };
       return result;
+    },
+  },
+
+  Mutation: {
+    addMovie: (_: any, { input }: { input: AddMovieInput }) => {
+      // Insert movie into database
+      const insertMovie = db.prepare("INSERT INTO movies (title) VALUES (?)");
+      const movieResult = insertMovie.run(input.title);
+      const movieId = movieResult.lastInsertRowid.toString();
+
+      // Insert movie-actor relationships
+      if (input.actorIds.length > 0) {
+        const insertMovieActor = db.prepare(
+          "INSERT INTO movies_actors (movie_id, actor_id) VALUES (?, ?) ON CONFLICT(movie_id, actor_id) DO NOTHING"
+        );
+
+        for (const actorId of input.actorIds) {
+          insertMovieActor.run(movieId, actorId);
+        }
+      }
+
+      // Return the created movie
+      return {
+        id: movieId,
+        title: input.title,
+      };
     },
   },
   Movie: {

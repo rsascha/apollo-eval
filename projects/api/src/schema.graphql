@@ -5,6 +5,15 @@ type Query {
   actor(id: ID!): Actor
 }
 
+type Mutation {
+  addMovie(input: AddMovieInput!): Movie!
+}
+
+input AddMovieInput {
+  title: String!
+  actorIds: [ID!]!
+}
+
 type Movie {
   id: ID!
   title: String!
