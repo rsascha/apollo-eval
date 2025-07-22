@@ -31,7 +31,13 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS actors (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL
-  )
+  ); 
+  -- Insert some dummy data
+  INSERT INTO actors (id, name) VALUES
+    ('1', 'Leonardo DiCaprio'),
+    ('2', 'Keanu Reeves'),
+    ('3', 'Marion Cotillard')
+  ON CONFLICT(id) DO NOTHING;
 `);
 
 const actors = [
@@ -47,7 +53,14 @@ db.exec(`
     PRIMARY KEY (movie_id, actor_id),
     FOREIGN KEY (movie_id) REFERENCES movies(id),
     FOREIGN KEY (actor_id) REFERENCES actors(id)
-  )
+  ); 
+  -- Insert some dummy data
+  INSERT INTO movies_actors (movie_id, actor_id) VALUES
+    ('1', '1'),
+    ('1', '3'),
+    ('2', '2'),
+    ('3', '2')
+  ON CONFLICT(movie_id, actor_id) DO NOTHING;
 `);
 
 export const resolvers = {
