@@ -1,6 +1,7 @@
 import GET_ACTORS_QUERY from "@/queries/GetActors.graphql";
 import type { GetActorsQuery } from "@/types";
 import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 
 export function Actors() {
   const { data, loading, error } = useQuery<GetActorsQuery>(GET_ACTORS_QUERY);
@@ -9,7 +10,27 @@ export function Actors() {
     return <div className="p-8 text-gray-600">Loading actors...</div>;
   if (error)
     return <div className="p-8 text-red-600">Error: {error.message}</div>;
-  if (!data) return null;
 
-  return JSON.stringify(data.actors, null, 2);
+  return (
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-6">Actors</h1>
+      <div className="flex flex-col gap-4">
+        {data?.actors
+          ?.filter((actor) => actor != null)
+          .map((actor) => (
+            <div
+              key={actor.id}
+              className="p-4 border border-gray-300 rounded-md hover:shadow-md transition-shadow"
+            >
+              <Link
+                to={`/actors/${actor.id}`}
+                className="text-xl text-blue-600 hover:text-blue-800 no-underline transition-colors"
+              >
+                {actor.name}
+              </Link>
+            </div>
+          ))}
+      </div>
+    </div>
+  );
 }

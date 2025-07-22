@@ -1,0 +1,6 @@
+query GetActor($id: ID!) {
+  actor(id: $id) {
+    id
+    name
+  }
+}
