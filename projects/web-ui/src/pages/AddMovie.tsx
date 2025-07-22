@@ -5,7 +5,6 @@ import type {
   AddMovieMutation,
   AddMovieMutationVariables,
   GetActorsQuery,
-  GetMoviesQuery,
 } from "@/types";
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
@@ -24,7 +23,6 @@ export function AddMovie() {
     AddMovieMutationVariables
   >(ADD_MOVIE_MUTATION, {
     onCompleted: (data) => {
-      // Navigate to the new movie detail page
       navigate(`/movies/${data.addMovie.id}`);
     },
     refetchQueries: [{ query: GET_MOVIES_QUERY }],

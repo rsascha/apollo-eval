@@ -7,7 +7,6 @@
   "scripts": {
     "dev": "npx tsx --watch-path=src/ src/server.ts",
     "start": "npx tsx src/server.ts",
-    "create-db": "NODE_OPTIONS=--experimental-sqlite npx tsx src/database/create-db.ts",
     "build": "tsc"
   },
   "keywords": [],
