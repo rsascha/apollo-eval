@@ -1,8 +1,10 @@
 # Apollo Eval
 
-A GraphQL evaluation project with Apollo Server and React frontend. Demonstrates modern GraphQL development with `*.graphql` files, TypeScript and code generation.
+I never had the opportunity to work with GraphQL in a real project, so I decided to build a small evaluation project to explore it.
 
-- See: [development workflow](projects/README.md)
+This is a GraphQL evaluation project with an Apollo Server backend and a React frontend. It demonstrates modern GraphQL development with `*.graphql` files, TypeScript, and code generation.
+
+- [development workflow](projects/README.md)
 
 ## Development
 
@@ -18,3 +20,4 @@ pnpm dev
 
 1. [ ] add e2e tests
 1. [ ] reload data after add movie
+1. [ ] Open AI API integration to connect multiple data sources
