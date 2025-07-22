@@ -1,0 +1,6 @@
+query GetMovies {
+  movies {
+    id
+    title
+  }
+}

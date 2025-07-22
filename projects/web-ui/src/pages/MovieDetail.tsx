@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
+import type { GetMovieQuery } from "../types";
 
 const GET_MOVIE = gql`
   query GetMovie($id: ID!) {
@@ -9,13 +10,6 @@ const GET_MOVIE = gql`
     }
   }
 `;
-
-interface GetMovieQuery {
-  movie?: {
-    id: string;
-    title: string;
-  } | null;
-}
 
 export function MovieDetail() {
   const { id } = useParams<{ id: string }>();

@@ -31,6 +31,13 @@ export type QueryMovieArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type GetMovieQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GetMovieQuery = { __typename?: 'Query', movie?: { __typename?: 'Movie', id: string, title: string } | null };
+
 export type GetMoviesQueryVariables = Exact<{ [key: string]: never; }>;
 
 

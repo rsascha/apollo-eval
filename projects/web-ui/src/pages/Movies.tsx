@@ -1,18 +1,10 @@
-import { gql, useQuery } from "@apollo/client";
+import GET_MOVIES_QUERY from "@/queries/GetMovies.graphql";
+import type { GetMoviesQuery } from "@/types";
+import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
-import type { GetMoviesQuery } from "../types";
-
-const GET_MOVIES = gql`
-  query GetMovies {
-    movies {
-      id
-      title
-    }
-  }
-`;
 
 export function Movies() {
-  const { data, loading, error } = useQuery<GetMoviesQuery>(GET_MOVIES);
+  const { data, loading, error } = useQuery<GetMoviesQuery>(GET_MOVIES_QUERY);
 
   if (loading) return <div>Loading movies...</div>;
   if (error) return <div>Error: {error.message}</div>;
