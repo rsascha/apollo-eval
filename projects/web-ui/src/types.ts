@@ -14,6 +14,12 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type Actor = {
+  __typename?: 'Actor';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Movie = {
   __typename?: 'Movie';
   id: Scalars['ID']['output'];
@@ -22,6 +28,7 @@ export type Movie = {
 
 export type Query = {
   __typename?: 'Query';
+  actors?: Maybe<Array<Maybe<Actor>>>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
 };

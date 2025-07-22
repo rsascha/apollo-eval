@@ -1,24 +1,13 @@
 import { ApolloServer, BaseContext } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { readFileSync } from "fs";
+import { resolvers } from "./resolvers";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 
-const movies = [
-  { id: "1", title: "Inception" },
-  { id: "2", title: "The Matrix" },
-];
 const typeDefs = readFileSync(`${__dirname}/schema.graphql`, {
   encoding: "utf-8",
 });
-
-const resolvers = {
-  Query: {
-    movies: () => movies,
-    movie: (_: any, { id }: { id: string }) =>
-      movies.find((movie) => movie.id === id),
-  },
-};
 
 interface MyContext extends BaseContext {}
 

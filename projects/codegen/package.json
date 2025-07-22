@@ -2,8 +2,8 @@
   "name": "codegen",
   "version": "1.0.0",
   "scripts": {
-    "dev": "graphql-codegen",
-    "generate": "graphql-codegen --watch"
+    "dev": "graphql-codegen --watch",
+    "generate": "graphql-codegen"
   },
   "dependencies": {
     "@graphql-codegen/cli": "^5.0.7",

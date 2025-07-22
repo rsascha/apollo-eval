@@ -1,0 +1,6 @@
+# query GetActors {
+#   actors {
+#     id
+#     name
+#   }
+# }
