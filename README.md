@@ -1,6 +1,8 @@
 # Apollo Eval
 
-todo
+A GraphQL evaluation project with Apollo Server and React frontend. Demonstrates modern GraphQL development with `*.graphql` files, TypeScript and code generation.
+
+- See: [development workflow](projects/README.md)
 
 ## Development
 
