@@ -1,6 +1,6 @@
-# query GetActors {
-#   actors {
-#     id
-#     name
-#   }
-# }
+query GetActors {
+  actors {
+    id
+    name
+  }
+}

@@ -11,9 +11,15 @@ export function Navigation() {
       </Link>
       <Link
         to="/movies"
-        className="text-blue-600 hover:text-blue-800 transition-colors"
+        className="mr-4 text-blue-600 hover:text-blue-800 transition-colors"
       >
         Movies
+      </Link>
+      <Link
+        to="/actors"
+        className="text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        Actors
       </Link>
     </nav>
   );
