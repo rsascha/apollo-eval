@@ -10,7 +10,7 @@ This is a GraphQL evaluation project with an Apollo Server backend and a React f
 
 ```sh
 pnpm install
-pnpm dev
+pnpm dev # starts the Apollo Server, the Web UI and the Code Generator
 ```
 
 - Apollo Server: [http://localhost:4000/](http://localhost:4000/)
