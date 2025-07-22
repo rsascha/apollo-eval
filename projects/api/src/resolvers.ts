@@ -21,11 +21,16 @@ db.exec(`
   ON CONFLICT(id) DO NOTHING;
 `);
 
-const movies = [
-  { id: "1", title: "Inception", actorIds: ["1", "3"] },
-  { id: "2", title: "The Matrix", actorIds: ["2"] },
-  { id: "3", title: "John Wick", actorIds: ["2"] },
-];
+// const movies = [
+//   { id: "1", title: "Inception", actorIds: ["1", "3"] },
+//   { id: "2", title: "The Matrix", actorIds: ["2"] },
+//   { id: "3", title: "John Wick", actorIds: ["2"] },
+// ];
+
+interface DatabaseActor {
+  id: string;
+  name: string;
+}
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS actors (
@@ -40,11 +45,11 @@ db.exec(`
   ON CONFLICT(id) DO NOTHING;
 `);
 
-const actors = [
-  { id: "1", name: "Leonardo DiCaprio", movieIds: ["1"] },
-  { id: "2", name: "Keanu Reeves", movieIds: ["2", "3"] },
-  { id: "3", name: "Marion Cotillard", movieIds: ["1"] },
-];
+// const actors = [
+//   { id: "1", name: "Leonardo DiCaprio", movieIds: ["1"] },
+//   { id: "2", name: "Keanu Reeves", movieIds: ["2", "3"] },
+//   { id: "3", name: "Marion Cotillard", movieIds: ["1"] },
+// ];
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS movies_actors (
@@ -93,11 +98,25 @@ export const resolvers = {
     //   actors.find((actor) => actor.id === id),
   },
 
-  // Movie: {
-  //   actors: (parent: any) => {
-  //     return actors.filter((actor) => parent.actorIds.includes(actor.id));
-  //   },
-  // },
+  Movie: {
+    actors: (parent: any) => {
+      const dbResult = db
+        .prepare(
+          `
+          SELECT a.id, a.name 
+          FROM actors a
+          JOIN movies_actors ma ON a.id = ma.actor_id
+          WHERE ma.movie_id = ?
+        `
+        )
+        .all(parent.id) as DatabaseActor[];
+
+      return dbResult.map((actor) => ({
+        id: actor.id,
+        name: actor.name,
+      }));
+    },
+  },
 
   // Actor: {
   //   movies: (parent: any) => {
