@@ -13,3 +13,8 @@ pnpm dev
 
 - Apollo Server: [http://localhost:4000/](http://localhost:4000/)
 - Web UI: [http://localhost:5173/](http://localhost:5173/)
+
+## Planned Features
+
+1. [ ] add e2e tests
+1. [ ] reload data after add movie
