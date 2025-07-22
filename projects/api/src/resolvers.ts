@@ -14,5 +14,7 @@ export const resolvers = {
     actors: () => actors,
     movie: (_: any, { id }: { id: string }) =>
       movies.find((movie) => movie.id === id),
+    actor: (_: any, { id }: { id: string }) =>
+      actors.find((actor) => actor.id === id),
   },
 };

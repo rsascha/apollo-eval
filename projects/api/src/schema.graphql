@@ -2,6 +2,7 @@ type Query {
   movies: [Movie]
   actors: [Actor]
   movie(id: ID!): Movie
+  actor(id: ID!): Actor
 }
 
 type Movie {

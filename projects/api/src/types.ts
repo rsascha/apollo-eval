@@ -30,9 +30,15 @@ export type Movie = {
 
 export type Query = {
   __typename?: 'Query';
+  actor?: Maybe<Actor>;
   actors?: Maybe<Array<Maybe<Actor>>>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
+};
+
+
+export type QueryActorArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -142,6 +148,7 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  actor?: Resolver<Maybe<ResolversTypes['Actor']>, ParentType, ContextType, RequireFields<QueryActorArgs, 'id'>>;
   actors?: Resolver<Maybe<Array<Maybe<ResolversTypes['Actor']>>>, ParentType, ContextType>;
   movie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryMovieArgs, 'id'>>;
   movies?: Resolver<Maybe<Array<Maybe<ResolversTypes['Movie']>>>, ParentType, ContextType>;

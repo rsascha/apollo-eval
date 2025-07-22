@@ -28,9 +28,15 @@ export type Movie = {
 
 export type Query = {
   __typename?: 'Query';
+  actor?: Maybe<Actor>;
   actors?: Maybe<Array<Maybe<Actor>>>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
+};
+
+
+export type QueryActorArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
