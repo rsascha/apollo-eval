@@ -19,11 +19,13 @@ export type Scalars = {
 export type Actor = {
   __typename?: 'Actor';
   id: Scalars['ID']['output'];
+  movies: Array<Movie>;
   name: Scalars['String']['output'];
 };
 
 export type Movie = {
   __typename?: 'Movie';
+  actors: Array<Actor>;
   id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
 };
@@ -137,11 +139,13 @@ export type ResolversParentTypes = {
 
 export type ActorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Actor'] = ResolversParentTypes['Actor']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  movies?: Resolver<Array<ResolversTypes['Movie']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MovieResolvers<ContextType = any, ParentType extends ResolversParentTypes['Movie'] = ResolversParentTypes['Movie']> = {
+  actors?: Resolver<Array<ResolversTypes['Actor']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

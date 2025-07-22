@@ -2,5 +2,9 @@ query GetActor($id: ID!) {
   actor(id: $id) {
     id
     name
+    movies {
+      id
+      title
+    }
   }
 }

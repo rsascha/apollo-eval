@@ -17,11 +17,13 @@ export type Scalars = {
 export type Actor = {
   __typename?: 'Actor';
   id: Scalars['ID']['output'];
+  movies: Array<Movie>;
   name: Scalars['String']['output'];
 };
 
 export type Movie = {
   __typename?: 'Movie';
+  actors: Array<Actor>;
   id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
 };
@@ -49,7 +51,7 @@ export type GetActorQueryVariables = Exact<{
 }>;
 
 
-export type GetActorQuery = { __typename?: 'Query', actor?: { __typename?: 'Actor', id: string, name: string } | null };
+export type GetActorQuery = { __typename?: 'Query', actor?: { __typename?: 'Actor', id: string, name: string, movies: Array<{ __typename?: 'Movie', id: string, title: string }> } | null };
 
 export type GetActorsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -61,7 +63,7 @@ export type GetMovieQueryVariables = Exact<{
 }>;
 
 
-export type GetMovieQuery = { __typename?: 'Query', movie?: { __typename?: 'Movie', id: string, title: string } | null };
+export type GetMovieQuery = { __typename?: 'Query', movie?: { __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } | null };
 
 export type GetMoviesQueryVariables = Exact<{ [key: string]: never; }>;
 

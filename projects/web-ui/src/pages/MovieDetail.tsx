@@ -1,7 +1,7 @@
 import GET_MOVIE from "@/queries/GetMovie.graphql";
 import type { GetMovieQuery } from "@/types";
 import { useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export function MovieDetail() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +19,22 @@ export function MovieDetail() {
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">{data.movie.title}</h1>
-      <p className="text-gray-600">Movie ID: {data.movie.id}</p>
+      <p className="text-gray-600 mb-6">Movie ID: {data.movie.id}</p>
+      
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Cast</h2>
+        <div className="flex flex-col gap-2">
+          {data.movie.actors?.map(actor => (
+            <Link
+              key={actor.id}
+              to={`/actors/${actor.id}`}
+              className="text-blue-600 hover:text-blue-800 transition-colors"
+            >
+              {actor.name}
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
