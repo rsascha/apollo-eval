@@ -27,7 +27,10 @@ type Actor {
 ```ts
 export const resolvers = {
   Query: {
-    actors: () => actors,
+    actors: () => {
+      // ...
+      return [];
+    },
   },
 };
 ```
