@@ -1,10 +1,12 @@
 import ADD_MOVIE_MUTATION from "@/queries/AddMovie.graphql";
 import GET_ACTORS_QUERY from "@/queries/GetActors.graphql";
 import GET_MOVIES_QUERY from "@/queries/GetMovies.graphql";
+import GET_RANDOM_MOVIE_NAME_QUERY from "@/queries/GetRandomMovieName.graphql";
 import type {
   AddMovieMutation,
   AddMovieMutationVariables,
   GetActorsQuery,
+  GetRandomMovieNameQuery,
 } from "@/types";
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
@@ -14,9 +16,19 @@ export function AddMovie() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [selectedActorIds, setSelectedActorIds] = useState<string[]>([]);
+  const [isRefetchingRandomMovie, setIsRefetchingRandomMovie] = useState(false);
 
   const { data: actorsData, loading: actorsLoading } =
     useQuery<GetActorsQuery>(GET_ACTORS_QUERY);
+
+  const { loading: randomMovieLoading, refetch: refetchRandomMovie } =
+    useQuery<GetRandomMovieNameQuery>(GET_RANDOM_MOVIE_NAME_QUERY, {
+      onCompleted: (data) => {
+        if (data.randomMovieName && !title) {
+          setTitle(data.randomMovieName);
+        }
+      },
+    });
 
   const [addMovie, { loading: addingMovie, error }] = useMutation<
     AddMovieMutation,
@@ -34,6 +46,19 @@ export function AddMovie() {
         ? prev.filter((id) => id !== actorId)
         : [...prev, actorId]
     );
+  }
+
+  function handleGenerateRandomTitle() {
+    setIsRefetchingRandomMovie(true);
+    refetchRandomMovie()
+      .then((result) => {
+        if (result.data?.randomMovieName) {
+          setTitle(result.data.randomMovieName);
+        }
+      })
+      .finally(() => {
+        setIsRefetchingRandomMovie(false);
+      });
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -54,8 +79,8 @@ export function AddMovie() {
     });
   }
 
-  if (actorsLoading) {
-    return <div className="p-8 text-gray-600">Loading actors...</div>;
+  if (actorsLoading || randomMovieLoading) {
+    return <div className="p-8 text-gray-600">Loading...</div>;
   }
 
   return (
@@ -70,15 +95,25 @@ export function AddMovie() {
           >
             Movie Title
           </label>
-          <input
-            type="text"
-            id="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter movie title"
-            required
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter movie title"
+              required
+            />
+            <button
+              type="button"
+              onClick={handleGenerateRandomTitle}
+              disabled={randomMovieLoading || isRefetchingRandomMovie}
+              className="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+            >
+              {isRefetchingRandomMovie ? "..." : "🎲 Random"}
+            </button>
+          </div>
         </div>
 
         <div>

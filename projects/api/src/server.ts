@@ -18,4 +18,3 @@ const server = new ApolloServer<MyContext>({
 
 const { url } = await startStandaloneServer(server);
 console.log(`🚀 Server ready at ${url}`);
-console.log("📊 Database initialized with SQLite backend");

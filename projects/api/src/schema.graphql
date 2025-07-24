@@ -3,6 +3,7 @@ type Query {
   actors: [Actor]
   movie(id: ID!): Movie
   actor(id: ID!): Actor
+  randomMovieName: String!
 }
 
 type Mutation {

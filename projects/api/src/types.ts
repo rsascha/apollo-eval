@@ -51,6 +51,7 @@ export type Query = {
   actors?: Maybe<Array<Maybe<Actor>>>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
+  randomMovieName: Scalars['String']['output'];
 };
 
 
@@ -179,6 +180,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   actors?: Resolver<Maybe<Array<Maybe<ResolversTypes['Actor']>>>, ParentType, ContextType>;
   movie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryMovieArgs, 'id'>>;
   movies?: Resolver<Maybe<Array<Maybe<ResolversTypes['Movie']>>>, ParentType, ContextType>;
+  randomMovieName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
