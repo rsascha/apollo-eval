@@ -4,6 +4,7 @@ type Query {
   movie(id: ID!): Movie
   actor(id: ID!): Actor
   randomWord: String!
+  deleteDatabase: Boolean!
 }
 
 type Mutation {

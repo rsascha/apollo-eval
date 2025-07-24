@@ -49,6 +49,7 @@ export type Query = {
   __typename?: 'Query';
   actor?: Maybe<Actor>;
   actors?: Maybe<Array<Maybe<Actor>>>;
+  deleteDatabase: Scalars['Boolean']['output'];
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
   randomWord: Scalars['String']['output'];
@@ -178,6 +179,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   actor?: Resolver<Maybe<ResolversTypes['Actor']>, ParentType, ContextType, RequireFields<QueryActorArgs, 'id'>>;
   actors?: Resolver<Maybe<Array<Maybe<ResolversTypes['Actor']>>>, ParentType, ContextType>;
+  deleteDatabase?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   movie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryMovieArgs, 'id'>>;
   movies?: Resolver<Maybe<Array<Maybe<ResolversTypes['Movie']>>>, ParentType, ContextType>;
   randomWord?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

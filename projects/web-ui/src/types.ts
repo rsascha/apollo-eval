@@ -47,6 +47,7 @@ export type Query = {
   __typename?: 'Query';
   actor?: Maybe<Actor>;
   actors?: Maybe<Array<Maybe<Actor>>>;
+  deleteDatabase: Scalars['Boolean']['output'];
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
   randomWord: Scalars['String']['output'];

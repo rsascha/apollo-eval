@@ -15,8 +15,19 @@ if (dbExists) {
   console.log(`📊 DB created at path: ${dbPath}`);
 }
 
-const db = new DatabaseSync(dbPath);
+const db = { dbSync: new DatabaseSync(dbPath) };
 
 export function getDatabaseConnection() {
-  return db;
+  return db.dbSync;
+}
+
+export function deleteDatabase() {
+  if (dbExists) {
+    db.dbSync.close();
+    unlinkSync(dbPath);
+    console.log(`📊 Database deleted at path: ${dbPath}`);
+    db.dbSync = new DatabaseSync(dbPath);
+  } else {
+    console.log("📊 No database to delete.");
+  }
 }

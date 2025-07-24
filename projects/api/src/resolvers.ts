@@ -1,4 +1,4 @@
-import { getDatabaseConnection } from "@/getDatabaseConnection";
+import { deleteDatabase, getDatabaseConnection } from "@/db";
 
 const db = getDatabaseConnection();
 
@@ -117,6 +117,10 @@ export const resolvers = {
     },
     randomWord: async () => {
       return await fetchRandomWord();
+    },
+    deleteDatabase: () => {
+      deleteDatabase();
+      return true;
     },
   },
 
