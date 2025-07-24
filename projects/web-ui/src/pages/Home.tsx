@@ -1,15 +1,18 @@
 import DELETE_DATABASE_QUERY from "@/queries/DeleteDatabase.graphql";
 import type { DeleteDatabaseMutation } from "@/types";
-import { useMutation } from "@apollo/client";
+import { useMutation, useApolloClient } from "@apollo/client";
 import { useState } from "react";
 
 export function Home() {
   const [deleteResult, setDeleteResult] = useState<string | null>(null);
+  const client = useApolloClient();
 
   const [deleteDatabase, { loading: isDeleting }] =
     useMutation<DeleteDatabaseMutation>(DELETE_DATABASE_QUERY, {
-      onCompleted: (data) => {
+      onCompleted: async (data) => {
         if (data.deleteDatabase) {
+          // Clear the entire Apollo Client cache
+          await client.clearStore();
           setDeleteResult("Database deleted successfully!");
         } else {
           setDeleteResult("Failed to delete database.");
