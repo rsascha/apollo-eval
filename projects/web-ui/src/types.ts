@@ -70,6 +70,11 @@ export type AddMovieMutationVariables = Exact<{
 
 export type AddMovieMutation = { __typename?: 'Mutation', addMovie: { __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } };
 
+export type DeleteDatabaseQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteDatabaseQuery = { __typename?: 'Query', deleteDatabase: boolean };
+
 export type GetActorQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
