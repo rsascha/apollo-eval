@@ -49,7 +49,7 @@ export type Query = {
   actors?: Maybe<Array<Maybe<Actor>>>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
-  randomMovieName: Scalars['String']['output'];
+  randomWord: Scalars['String']['output'];
 };
 
 
@@ -103,7 +103,7 @@ export type GetMoviesWithActorsQueryVariables = Exact<{ [key: string]: never; }>
 
 export type GetMoviesWithActorsQuery = { __typename?: 'Query', movies?: Array<{ __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } | null> | null };
 
-export type GetRandomMovieNameQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetRandomWordQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetRandomMovieNameQuery = { __typename?: 'Query', randomMovieName: string };
+export type GetRandomWordQuery = { __typename?: 'Query', randomWord: string };

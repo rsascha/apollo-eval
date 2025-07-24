@@ -1,12 +1,12 @@
 import ADD_MOVIE_MUTATION from "@/queries/AddMovie.graphql";
 import GET_ACTORS_QUERY from "@/queries/GetActors.graphql";
 import GET_MOVIES_QUERY from "@/queries/GetMovies.graphql";
-import GET_RANDOM_MOVIE_NAME_QUERY from "@/queries/GetRandomMovieName.graphql";
+import GET_RANDOM_WORD_QUERY from "@/queries/GetRandomWord.graphql";
 import type {
   AddMovieMutation,
   AddMovieMutationVariables,
   GetActorsQuery,
-  GetRandomMovieNameQuery,
+  GetRandomWordQuery,
 } from "@/types";
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
@@ -16,16 +16,16 @@ export function AddMovie() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [selectedActorIds, setSelectedActorIds] = useState<string[]>([]);
-  const [isRefetchingRandomMovie, setIsRefetchingRandomMovie] = useState(false);
+  const [isRefetchingRandomWord, setIsRefetchingRandomWord] = useState(false);
 
   const { data: actorsData, loading: actorsLoading } =
     useQuery<GetActorsQuery>(GET_ACTORS_QUERY);
 
-  const { loading: randomMovieLoading, refetch: refetchRandomMovie } =
-    useQuery<GetRandomMovieNameQuery>(GET_RANDOM_MOVIE_NAME_QUERY, {
+  const { loading: randomWordLoading, refetch: refetchRandomWord } =
+    useQuery<GetRandomWordQuery>(GET_RANDOM_WORD_QUERY, {
       onCompleted: (data) => {
-        if (data.randomMovieName && !title) {
-          setTitle(data.randomMovieName);
+        if (data.randomWord && !title) {
+          setTitle(data.randomWord);
         }
       },
     });
@@ -49,15 +49,15 @@ export function AddMovie() {
   }
 
   function handleGenerateRandomTitle() {
-    setIsRefetchingRandomMovie(true);
-    refetchRandomMovie()
+    setIsRefetchingRandomWord(true);
+    refetchRandomWord()
       .then((result) => {
-        if (result.data?.randomMovieName) {
-          setTitle(result.data.randomMovieName);
+        if (result.data?.randomWord) {
+          setTitle(result.data.randomWord);
         }
       })
       .finally(() => {
-        setIsRefetchingRandomMovie(false);
+        setIsRefetchingRandomWord(false);
       });
   }
 
@@ -79,7 +79,7 @@ export function AddMovie() {
     });
   }
 
-  if (actorsLoading || randomMovieLoading) {
+  if (actorsLoading || randomWordLoading) {
     return <div className="p-8 text-gray-600">Loading...</div>;
   }
 
@@ -108,10 +108,10 @@ export function AddMovie() {
             <button
               type="button"
               onClick={handleGenerateRandomTitle}
-              disabled={randomMovieLoading || isRefetchingRandomMovie}
+              disabled={randomWordLoading || isRefetchingRandomWord}
               className="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
-              {isRefetchingRandomMovie ? "..." : "🎲 Random"}
+              {isRefetchingRandomWord ? "..." : "🎲 Random"}
             </button>
           </div>
         </div>
