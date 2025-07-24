@@ -1,16 +1,14 @@
 import DELETE_DATABASE_QUERY from "@/queries/DeleteDatabase.graphql";
-import type { DeleteDatabaseQuery } from "@/types";
-import { useLazyQuery } from "@apollo/client";
+import type { DeleteDatabaseMutation } from "@/types";
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
 
 export function Home() {
-  const [isDeleting, setIsDeleting] = useState(false);
   const [deleteResult, setDeleteResult] = useState<string | null>(null);
-  const [deleteDatabase] = useLazyQuery<DeleteDatabaseQuery>(
-    DELETE_DATABASE_QUERY,
-    {
+
+  const [deleteDatabase, { loading: isDeleting }] =
+    useMutation<DeleteDatabaseMutation>(DELETE_DATABASE_QUERY, {
       onCompleted: (data) => {
-        setIsDeleting(false);
         if (data.deleteDatabase) {
           setDeleteResult("Database deleted successfully!");
         } else {
@@ -19,15 +17,12 @@ export function Home() {
         setTimeout(() => setDeleteResult(null), 3000);
       },
       onError: (error) => {
-        setIsDeleting(false);
         setDeleteResult(`Error: ${error.message}`);
         setTimeout(() => setDeleteResult(null), 5000);
       },
-    }
-  );
+    });
 
   function handleDeleteDatabase() {
-    setIsDeleting(true);
     deleteDatabase();
   }
 

@@ -36,6 +36,7 @@ export type Movie = {
 export type Mutation = {
   __typename?: 'Mutation';
   addMovie: Movie;
+  deleteDatabase: Scalars['Boolean']['output'];
 };
 
 
@@ -47,7 +48,6 @@ export type Query = {
   __typename?: 'Query';
   actor?: Maybe<Actor>;
   actors?: Maybe<Array<Maybe<Actor>>>;
-  deleteDatabase: Scalars['Boolean']['output'];
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
   randomWord: Scalars['String']['output'];
@@ -70,10 +70,10 @@ export type AddMovieMutationVariables = Exact<{
 
 export type AddMovieMutation = { __typename?: 'Mutation', addMovie: { __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } };
 
-export type DeleteDatabaseQueryVariables = Exact<{ [key: string]: never; }>;
+export type DeleteDatabaseMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type DeleteDatabaseQuery = { __typename?: 'Query', deleteDatabase: boolean };
+export type DeleteDatabaseMutation = { __typename?: 'Mutation', deleteDatabase: boolean };
 
 export type GetActorQueryVariables = Exact<{
   id: Scalars['ID']['input'];

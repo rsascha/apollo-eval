@@ -118,10 +118,6 @@ export const resolvers = {
     randomWord: async () => {
       return await fetchRandomWord();
     },
-    deleteDatabase: () => {
-      deleteDatabase();
-      return true;
-    },
   },
 
   Mutation: {
@@ -147,6 +143,10 @@ export const resolvers = {
         id: movieId,
         title: input.title,
       };
+    },
+    deleteDatabase: () => {
+      deleteDatabase();
+      return true;
     },
   },
   Movie: {

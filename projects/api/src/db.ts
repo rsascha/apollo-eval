@@ -29,6 +29,10 @@ export function deleteDatabase() {
     console.log(`📊 Database deleted at path: ${dbPath}`);
     db.dbSync = new DatabaseSync(dbPath);
     console.log(`📊 New database created at path: ${dbPath}`);
+    if (!db.dbSync.isOpen) {
+      db.dbSync.open();
+    }
+    console.log("📊 New database connection established.");
   } else {
     console.log("📊 No database to delete.");
   }
