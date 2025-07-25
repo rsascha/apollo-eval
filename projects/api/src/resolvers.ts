@@ -123,12 +123,12 @@ export const resolvers = {
     },
   },
   Subscription: {
-    greeting: {
+    greetings: {
       subscribe: async function* () {
         while (true) {
           for (const hi of ["Hi", "Bonjour", "Hola", "Ciao", "Zdravo"]) {
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            yield { greeting: hi };
+            yield { greetings: hi };
           }
         }
       },

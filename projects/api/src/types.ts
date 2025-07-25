@@ -68,7 +68,7 @@ export type QueryMovieArgs = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  greeting: Scalars['String']['output'];
+  greetings: Scalars['String']['output'];
 };
 
 
@@ -195,7 +195,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  greeting?: SubscriptionResolver<ResolversTypes['String'], "greeting", ParentType, ContextType>;
+  greetings?: SubscriptionResolver<ResolversTypes['String'], "greetings", ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
