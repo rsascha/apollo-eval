@@ -127,7 +127,8 @@ export const resolvers = {
       subscribe: async function* () {
         while (true) {
           for (const hi of ["Hi", "Bonjour", "Hola", "Ciao", "Zdravo"]) {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const randomDelay = Math.floor(Math.random() * 9000) + 1000;
+            await new Promise((resolve) => setTimeout(resolve, randomDelay));
             yield { greetings: hi };
           }
         }
