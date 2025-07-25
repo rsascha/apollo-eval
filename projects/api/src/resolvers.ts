@@ -1,5 +1,8 @@
 import { DatabaseActor, DatabaseMovie, db } from "@/db";
 import { AddMovieInput } from "./types";
+import { EventEmitter } from "events";
+
+const pubsub = new EventEmitter();
 
 async function fetchRandomWord(): Promise<string> {
   const response = await fetch("https://random-word-api.herokuapp.com/word");
@@ -77,13 +80,20 @@ export const resolvers = {
           insertMovieActor.run(movieId, actorId);
         }
       }
+
+      pubsub.emit("MOVIES_UPDATED");
+
       return {
         id: movieId,
         title: input.title,
       };
     },
     deleteDatabase: () => {
-      return db.delete() && db.create();
+      const result = db.delete() && db.create();
+
+      pubsub.emit("MOVIES_UPDATED");
+
+      return result;
     },
   },
   Movie: {
@@ -131,6 +141,20 @@ export const resolvers = {
             await new Promise((resolve) => setTimeout(resolve, randomDelay));
             yield { greetings: hi };
           }
+        }
+      },
+    },
+    triggerMoviesReload: {
+      subscribe: async function* () {
+        while (true) {
+          await new Promise<void>((resolve) => {
+            const handler = () => {
+              pubsub.removeListener("MOVIES_UPDATED", handler);
+              resolve();
+            };
+            pubsub.on("MOVIES_UPDATED", handler);
+          });
+          yield { triggerMoviesReload: true };
         }
       },
     },

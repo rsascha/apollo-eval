@@ -10,8 +10,10 @@ import {
   Movies,
   MoviesWithActors,
 } from "@/pages";
+import { useRefetch } from "./hooks";
 
-export default function App() {
+export function App() {
+  useRefetch();
   return (
     <div>
       <Navigation />

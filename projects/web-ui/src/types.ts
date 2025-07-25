@@ -67,6 +67,7 @@ export type QueryMovieArgs = {
 export type Subscription = {
   __typename?: 'Subscription';
   greetings: Scalars['String']['output'];
+  triggerMoviesReload: Scalars['Boolean']['output'];
 };
 
 export type AddMovieMutationVariables = Exact<{
@@ -124,3 +125,8 @@ export type OnGreetingsSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type OnGreetingsSubscription = { __typename?: 'Subscription', greetings: string };
+
+export type OnMoviesReloadSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnMoviesReloadSubscription = { __typename?: 'Subscription', triggerMoviesReload: boolean };

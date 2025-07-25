@@ -31,4 +31,5 @@ type Actor {
 
 type Subscription {
   greetings: String!
+  triggerMoviesReload: Boolean!
 }

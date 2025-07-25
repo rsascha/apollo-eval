@@ -1,0 +1,3 @@
+subscription OnMoviesReload {
+  triggerMoviesReload
+}

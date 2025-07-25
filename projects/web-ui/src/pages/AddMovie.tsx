@@ -1,6 +1,5 @@
 import ADD_MOVIE_MUTATION from "@/queries/AddMovie.graphql";
 import GET_ACTORS_QUERY from "@/queries/GetActors.graphql";
-import GET_MOVIES_QUERY from "@/queries/GetMovies.graphql";
 import GET_RANDOM_WORD_QUERY from "@/queries/GetRandomWord.graphql";
 import type {
   AddMovieMutation,
@@ -37,7 +36,6 @@ export function AddMovie() {
     onCompleted: (data) => {
       navigate(`/movies/${data.addMovie.id}`);
     },
-    refetchQueries: [{ query: GET_MOVIES_QUERY }, { query: GET_ACTORS_QUERY }],
   });
 
   function handleActorToggle(actorId: string) {
