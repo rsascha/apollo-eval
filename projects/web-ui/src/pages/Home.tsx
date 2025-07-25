@@ -1,5 +1,5 @@
 import DELETE_DATABASE_QUERY from "@/queries/DeleteDatabase.graphql";
-import type { DeleteDatabaseMutation } from "@/types";
+import type { DeleteDatabaseMutation, OnGreetingSubscription } from "@/types";
 import { useMutation, useApolloClient, useSubscription } from "@apollo/client";
 import { useState } from "react";
 import ON_GREETING from "@/queries/OnGreeting.graphql";
@@ -26,7 +26,7 @@ export function Home() {
     });
 
   const { data: subscriptionData, loading: subscriptionLoading } =
-    useSubscription(ON_GREETING);
+    useSubscription<OnGreetingSubscription>(ON_GREETING);
 
   console.debug("Subscription Data:", subscriptionData);
   console.debug("Subscription Loading:", subscriptionLoading);
@@ -37,6 +37,24 @@ export function Home() {
       <p className="text-gray-600 mb-8">
         Welcome to the GraphQL demo application
       </p>
+
+      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+        <h2 className="text-lg font-semibold text-blue-800 mb-2">
+          Live Greetings
+        </h2>
+        {subscriptionLoading ? (
+          <div className="flex items-center text-blue-700">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-700 mr-2"></div>
+            Loading greetings...
+          </div>
+        ) : subscriptionData?.greeting ? (
+          <p className="text-blue-700 font-medium">
+            {subscriptionData.greeting}
+          </p>
+        ) : (
+          <p className="text-blue-600">No greetings received yet</p>
+        )}
+      </div>
 
       <div className="mb-6">
         <a
