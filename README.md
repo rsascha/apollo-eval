@@ -13,10 +13,5 @@ pnpm install
 pnpm dev # starts the Apollo Server, the Web UI and the Code Generator
 ```
 
-- Apollo Server: [http://localhost:4000/](http://localhost:4000/)
+- Apollo Server: [http://localhost:4000/graphql](http://localhost:4000/graphql)
 - Web UI: [http://localhost:5173/](http://localhost:5173/)
-
-## Planned Features
-
-1. [ ] add e2e tests
-1. [ ] Open AI API integration to connect multiple data sources
