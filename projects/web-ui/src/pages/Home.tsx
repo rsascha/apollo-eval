@@ -28,9 +28,6 @@ export function Home() {
   const { data: subscriptionData, loading: subscriptionLoading } =
     useSubscription<OnGreetingsSubscription>(ON_GREETINGS);
 
-  console.debug("Subscription Data:", subscriptionData);
-  console.debug("Subscription Loading:", subscriptionLoading);
-
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-4">Apollo Evaluation</h1>
