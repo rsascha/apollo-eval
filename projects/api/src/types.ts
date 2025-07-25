@@ -38,6 +38,7 @@ export type Movie = {
 export type Mutation = {
   __typename?: 'Mutation';
   addMovie: Movie;
+  deleteDatabase: Scalars['Boolean']['output'];
 };
 
 
@@ -51,6 +52,8 @@ export type Query = {
   actors?: Maybe<Array<Maybe<Actor>>>;
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
+  randomWord: Scalars['String']['output'];
+  subscription: Subscription;
 };
 
 
@@ -61,6 +64,11 @@ export type QueryActorArgs = {
 
 export type QueryMovieArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  greetings: Scalars['String']['output'];
 };
 
 
@@ -142,6 +150,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Subscription: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -154,6 +163,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
+  Subscription: {};
 };
 
 export type ActorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Actor'] = ResolversParentTypes['Actor']> = {
@@ -172,6 +182,7 @@ export type MovieResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addMovie?: Resolver<ResolversTypes['Movie'], ParentType, ContextType, RequireFields<MutationAddMovieArgs, 'input'>>;
+  deleteDatabase?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -179,6 +190,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   actors?: Resolver<Maybe<Array<Maybe<ResolversTypes['Actor']>>>, ParentType, ContextType>;
   movie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryMovieArgs, 'id'>>;
   movies?: Resolver<Maybe<Array<Maybe<ResolversTypes['Movie']>>>, ParentType, ContextType>;
+  randomWord?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subscription?: Resolver<ResolversTypes['Subscription'], ParentType, ContextType>;
+};
+
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  greetings?: SubscriptionResolver<ResolversTypes['String'], "greetings", ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -186,5 +203,6 @@ export type Resolvers<ContextType = any> = {
   Movie?: MovieResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
 };
 

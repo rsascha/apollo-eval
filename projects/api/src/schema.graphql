@@ -3,10 +3,13 @@ type Query {
   actors: [Actor]
   movie(id: ID!): Movie
   actor(id: ID!): Actor
+  randomWord: String!
+  subscription: Subscription!
 }
 
 type Mutation {
   addMovie(input: AddMovieInput!): Movie!
+  deleteDatabase: Boolean!
 }
 
 input AddMovieInput {
@@ -24,4 +27,8 @@ type Actor {
   id: ID!
   name: String!
   movies: [Movie!]!
+}
+
+type Subscription {
+  greetings: String!
 }

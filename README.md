@@ -19,5 +19,4 @@ pnpm dev # starts the Apollo Server, the Web UI and the Code Generator
 ## Planned Features
 
 1. [ ] add e2e tests
-1. [ ] reload data after add movie
 1. [ ] Open AI API integration to connect multiple data sources
