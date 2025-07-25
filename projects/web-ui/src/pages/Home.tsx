@@ -1,7 +1,8 @@
 import DELETE_DATABASE_QUERY from "@/queries/DeleteDatabase.graphql";
 import type { DeleteDatabaseMutation } from "@/types";
-import { useMutation, useApolloClient } from "@apollo/client";
+import { useMutation, useApolloClient, useSubscription } from "@apollo/client";
 import { useState } from "react";
+import ON_GREETING from "@/queries/OnGreeting.graphql";
 
 export function Home() {
   const [deleteResult, setDeleteResult] = useState<string | null>(null);
@@ -11,7 +12,6 @@ export function Home() {
     useMutation<DeleteDatabaseMutation>(DELETE_DATABASE_QUERY, {
       onCompleted: async (data) => {
         if (data.deleteDatabase) {
-          // Clear the entire Apollo Client cache
           await client.clearStore();
           setDeleteResult("Database deleted successfully!");
         } else {
@@ -25,9 +25,11 @@ export function Home() {
       },
     });
 
-  function handleDeleteDatabase() {
-    deleteDatabase();
-  }
+  const { data: subscriptionData, loading: subscriptionLoading } =
+    useSubscription(ON_GREETING);
+
+  console.debug("Subscription Data:", subscriptionData);
+  console.debug("Subscription Loading:", subscriptionLoading);
 
   return (
     <div className="p-8">
@@ -35,6 +37,17 @@ export function Home() {
       <p className="text-gray-600 mb-8">
         Welcome to the GraphQL demo application
       </p>
+
+      <div className="mb-6">
+        <a
+          href="http://localhost:4000/graphql"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          🚀 Open Apollo Server Playground
+        </a>
+      </div>
 
       <div className="bg-red-50 border border-red-200 rounded-md p-4">
         <h2 className="text-lg font-semibold text-red-800 mb-2">
@@ -45,7 +58,7 @@ export function Home() {
           from the database.
         </p>
         <button
-          onClick={handleDeleteDatabase}
+          onClick={() => deleteDatabase()}
           disabled={isDeleting}
           className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >

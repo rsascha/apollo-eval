@@ -66,7 +66,7 @@ export type QueryMovieArgs = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  greetings: Scalars['String']['output'];
+  greeting: Scalars['String']['output'];
 };
 
 export type AddMovieMutationVariables = Exact<{
@@ -119,3 +119,8 @@ export type GetRandomWordQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetRandomWordQuery = { __typename?: 'Query', randomWord: string };
+
+export type OnGreetingSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OnGreetingSubscription = { __typename?: 'Subscription', greeting: string };

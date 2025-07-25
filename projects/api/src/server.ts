@@ -1,13 +1,14 @@
 import { ApolloServer, BaseContext } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { expressMiddleware } from "@as-integrations/express5";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import cors from "cors";
+import express from "express";
 import { readFileSync } from "fs";
 import { useServer } from "graphql-ws/use/ws";
+import { createServer } from "http";
 import { WebSocketServer } from "ws";
 import { resolvers } from "./resolvers";
-import express from "express";
-import { createServer } from "http";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 
@@ -17,22 +18,20 @@ const typeDefs = readFileSync(`${__dirname}/schema.graphql`, {
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
+const app = express();
+const httpServer = createServer(app);
+
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: "/subscriptions",
+});
+
+const serverCleanup = useServer({ schema }, wsServer);
+
 interface MyContext extends BaseContext {
   token?: String;
 }
-
-const app = express();
-const httpServer = createServer(app);
-const wsServer = new WebSocketServer({
-  // This is the `httpServer` we created in a previous step.
-  server: httpServer,
-  // Pass a different path here if app.use
-  // serves expressMiddleware at a different path
-  path: "/subscriptions",
-});
-const serverCleanup = useServer({ schema }, wsServer);
-
-const server = new ApolloServer({
+const server = new ApolloServer<MyContext>({
   schema,
   plugins: [
     ApolloServerPluginDrainHttpServer({ httpServer }),
@@ -48,12 +47,24 @@ const server = new ApolloServer({
   ],
 });
 
-// const { url } = await startStandaloneServer(server);
-const { url } = await startStandaloneServer(server, {
-  context: async ({ req }) => ({ token: req.headers.token }),
-  listen: { port: 4000 },
+await server.start();
+
+app.use(
+  "/graphql",
+  cors<cors.CorsRequest>(),
+  express.json(),
+  expressMiddleware(server, {
+    context: async ({ req }) => ({ token: req.headers.token }),
+  })
+);
+
+httpServer.listen(4000, () => {
+  console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+  console.log(`🚀 Subscriptions ready at ws://localhost:4000/subscriptions`);
 });
 
-console.log(`🚀 Server ready at ${url}`);
-
-// https://www.apollographql.com/docs/apollo-server/data/subscriptions
+// References:
+// - https://www.apollographql.com/docs/apollo-server/api/standalone
+// - https://www.apollographql.com/docs/apollo-server/builtin-plugins
+// - https://www.apollographql.com/docs/apollo-server/data/subscriptions
+// - https://www.apollographql.com/docs/apollo-server/api/express-middleware
