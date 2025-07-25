@@ -51,6 +51,7 @@ export type Query = {
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
   randomWord: Scalars['String']['output'];
+  subscription: Subscription;
 };
 
 
@@ -61,6 +62,11 @@ export type QueryActorArgs = {
 
 export type QueryMovieArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  greetings: Scalars['String']['output'];
 };
 
 export type AddMovieMutationVariables = Exact<{

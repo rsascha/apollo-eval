@@ -53,6 +53,7 @@ export type Query = {
   movie?: Maybe<Movie>;
   movies?: Maybe<Array<Maybe<Movie>>>;
   randomWord: Scalars['String']['output'];
+  subscription: Subscription;
 };
 
 
@@ -63,6 +64,11 @@ export type QueryActorArgs = {
 
 export type QueryMovieArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  greetings: Scalars['String']['output'];
 };
 
 
@@ -144,6 +150,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Subscription: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -156,6 +163,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
+  Subscription: {};
 };
 
 export type ActorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Actor'] = ResolversParentTypes['Actor']> = {
@@ -183,6 +191,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   movie?: Resolver<Maybe<ResolversTypes['Movie']>, ParentType, ContextType, RequireFields<QueryMovieArgs, 'id'>>;
   movies?: Resolver<Maybe<Array<Maybe<ResolversTypes['Movie']>>>, ParentType, ContextType>;
   randomWord?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  subscription?: Resolver<ResolversTypes['Subscription'], ParentType, ContextType>;
+};
+
+export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  greetings?: SubscriptionResolver<ResolversTypes['String'], "greetings", ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -190,5 +203,6 @@ export type Resolvers<ContextType = any> = {
   Movie?: MovieResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
 };
 

@@ -1,5 +1,6 @@
 import { DatabaseActor, DatabaseMovie, db } from "@/db";
 import { AddMovieInput } from "./types";
+import { GraphQLObjectType, GraphQLSchema, GraphQLString } from "graphql";
 
 async function fetchRandomWord(): Promise<string> {
   const response = await fetch("https://random-word-api.herokuapp.com/word");
@@ -120,6 +121,18 @@ export const resolvers = {
         id: movie.id.toString(),
         title: movie.title,
       }));
+    },
+  },
+  Subscription: {
+    greetings: {
+      subscribe: async function* () {
+        while (true) {
+          for (const hi of ["Hi", "Bonjour", "Hola", "Ciao", "Zdravo"]) {
+            yield { greetings: hi };
+          }
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+      },
     },
   },
 };

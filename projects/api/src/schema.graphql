@@ -4,6 +4,7 @@ type Query {
   movie(id: ID!): Movie
   actor(id: ID!): Actor
   randomWord: String!
+  subscription: Subscription!
 }
 
 type Mutation {
@@ -26,4 +27,8 @@ type Actor {
   id: ID!
   name: String!
   movies: [Movie!]!
+}
+
+type Subscription {
+  greetings: String!
 }
