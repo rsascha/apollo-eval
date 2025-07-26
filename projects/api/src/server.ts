@@ -12,12 +12,6 @@ import { resolvers } from "./resolvers";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 
-const typeDefs = readFileSync(`${__dirname}/schema.graphql`, {
-  encoding: "utf-8",
-});
-
-const schema = makeExecutableSchema({ typeDefs, resolvers });
-
 const app = express();
 const httpServer = createServer(app);
 
@@ -26,11 +20,16 @@ const wsServer = new WebSocketServer({
   path: "/subscriptions",
 });
 
+const typeDefs = readFileSync(`${__dirname}/schema.graphql`, {
+  encoding: "utf-8",
+});
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 const serverCleanup = useServer({ schema }, wsServer);
 
 interface MyContext extends BaseContext {
   token?: String;
 }
+
 const server = new ApolloServer<MyContext>({
   schema,
   plugins: [
