@@ -4,36 +4,6 @@ import React, { useState } from "react";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import { gql } from "@apollo/client";
 
-const GET_HELLO = gql`
-  query GetHello {
-    hello
-  }
-`;
-
-const GET_USERS = gql`
-  query GetUsers {
-    users {
-      id
-      name
-    }
-  }
-`;
-
-const ADD_USER = gql`
-  mutation AddUser($name: String!) {
-    addUser(name: $name) {
-      id
-      name
-    }
-  }
-`;
-
-const ON_GREETINGS = gql`
-  subscription OnGreetings {
-    greetings
-  }
-`;
-
 function Dashboard() {
   const [userName, setUserName] = useState("");
 
@@ -65,7 +35,7 @@ function Dashboard() {
         <div
           style={{
             padding: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
@@ -85,7 +55,7 @@ function Dashboard() {
         <div
           style={{
             padding: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
@@ -110,7 +80,7 @@ function Dashboard() {
           onSubmit={handleAddUser}
           style={{
             padding: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
@@ -137,7 +107,7 @@ function Dashboard() {
         <div
           style={{
             padding: "10px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
