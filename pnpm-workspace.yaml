@@ -3,5 +3,7 @@ packages:
 
 onlyBuiltDependencies:
   - '@apollo/protobufjs'
+  - '@parcel/watcher'
   - '@swc/core'
+  - '@tailwindcss/oxide'
   - esbuild
