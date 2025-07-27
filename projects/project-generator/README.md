@@ -18,6 +18,21 @@ You get sample code for a GraphQL API and a React frontend that can be used as a
 
 Web-Socket support is included for real-time updates.
 
+## Example Command
+
+```sh
+npm create vite-apollo-fs@latest --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
+```
+
+Target File Structure:
+
+```
+myProject
+├── codegen
+├── my-api
+└── my-web-ui
+```
+
 ## TODOs
 
 - [ ] fix TypeScript template issues

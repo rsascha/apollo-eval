@@ -300,8 +300,6 @@ async function createRootPackageJson(config: ProjectConfig) {
       "dev:api": `pnpm --filter ${config.apiName} dev`,
       "dev:web": `pnpm --filter ${config.webUiName} dev`,
       "dev:codegen": "pnpm --filter codegen dev",
-      "install:all": "pnpm install",
-      build: "pnpm --recursive run build",
     },
   };
 
