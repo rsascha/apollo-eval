@@ -12,3 +12,7 @@ test: delete
 		--destinationPath=../$(PROJECT) \
 		--apiName=$(API) \
 		--webUiName=$(WEB_UI)
+
+publish: 
+	npm version patch
+	npm publish --access public
