@@ -1,6 +1,6 @@
 {
   "name": "create-vite-apollo-fs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate new Apollo GraphQL projects",
   "type": "module",
   "main": "src/generator.ts",
@@ -10,7 +10,7 @@
   "scripts": {
     "generate": "npx tsx src/generator.ts",
     "build": "tsc",
-    "publish": "pnpm publish --access public"
+    "publish": "pnpm version patch && pnpm publish --access public"
   },
   "keywords": [],
   "author": "",
