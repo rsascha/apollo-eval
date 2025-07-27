@@ -16,33 +16,53 @@ interface ProjectConfig {
 async function promptForProjectConfig(): Promise<ProjectConfig> {
   // Check for command line arguments
   const args = process.argv.slice(2);
-  const destinationArg = args.find((arg) => arg.startsWith("--destination="));
-  const defaultDestination = destinationArg
-    ? destinationArg.split("=")[1]
-    : process.cwd();
+  const destinationArg = args.find((arg) =>
+    arg.startsWith("--destinationPath=")
+  );
+  const apiNameArg = args.find((arg) => arg.startsWith("--apiName="));
+  const webUiNameArg = args.find((arg) => arg.startsWith("--webUiName="));
 
-  const answers = await inquirer.prompt([
-    {
+  // Create prompts only for missing parameters
+  const prompts = [];
+
+  if (!destinationArg) {
+    prompts.push({
       type: "input",
       name: "destinationPath",
       message: "Enter destination path for the new project:",
-      default: defaultDestination,
-    },
-    {
+      default: process.cwd(),
+    });
+  }
+
+  if (!apiNameArg) {
+    prompts.push({
       type: "input",
       name: "apiName",
       message: "Enter API project name:",
       default: "my-api",
-    },
-    {
+    });
+  }
+
+  if (!webUiNameArg) {
+    prompts.push({
       type: "input",
       name: "webUiName",
       message: "Enter Web UI project name:",
       default: "my-web-ui",
-    },
-  ]);
+    });
+  }
 
-  return answers;
+  // Get answers for missing parameters
+  const answers = await inquirer.prompt(prompts);
+
+  // Combine CLI args with prompted answers
+  return {
+    destinationPath: destinationArg
+      ? destinationArg.split("=")[1]
+      : answers.destinationPath,
+    apiName: apiNameArg ? apiNameArg.split("=")[1] : answers.apiName,
+    webUiName: webUiNameArg ? webUiNameArg.split("=")[1] : answers.webUiName,
+  };
 }
 
 async function generateApiProject(config: ProjectConfig) {
@@ -255,12 +275,51 @@ async function generateWebUiProject(config: ProjectConfig) {
       greetingsSubscription
     );
 
-    // Copy App.tsx from the source web-ui project
-    const sourceWebUiPath = path.resolve(__dirname, "../../web-ui");
-    await fs.copy(
-      path.join(sourceWebUiPath, "src/App/App.tsx"),
-      path.join(targetWebUiPath, "src/App.tsx")
+    // Create simple App.tsx for the generated project
+    const appTsx = `import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { split } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import Dashboard from './Dashboard';
+import './App.css';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000/graphql',
+});
+
+const wsLink = new GraphQLWsLink(createClient({
+  url: 'ws://localhost:4000/graphql',
+}));
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
     );
+  },
+  wsLink,
+  httpLink,
+);
+
+const client = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache(),
+});
+
+function App() {
+  return (
+    <ApolloProvider client={client}>
+      <Dashboard />
+    </ApolloProvider>
+  );
+}
+
+export default App;`;
+
+    await fs.writeFile(path.join(targetWebUiPath, "src/App.tsx"), appTsx);
 
     // Create Dashboard component
     const dashboardTsx = `import React, { useState } from 'react';
@@ -321,7 +380,7 @@ function Dashboard() {
       {/* Query Example */}
       <section style={{ marginBottom: '30px' }}>
         <h2>Query Example</h2>
-        <div style={{ padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
+        <div style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
           {helloLoading ? (
             <p>Loading...</p>
           ) : (
@@ -333,7 +392,7 @@ function Dashboard() {
       {/* Users List */}
       <section style={{ marginBottom: '30px' }}>
         <h2>Users (Query)</h2>
-        <div style={{ padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
+        <div style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
           {usersLoading ? (
             <p>Loading users...</p>
           ) : (
@@ -349,7 +408,7 @@ function Dashboard() {
       {/* Mutation Example */}
       <section style={{ marginBottom: '30px' }}>
         <h2>Add User (Mutation)</h2>
-        <form onSubmit={handleAddUser} style={{ padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '5px' }}>
+        <form onSubmit={handleAddUser} style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
           <input
             type="text"
             value={userName}
@@ -370,7 +429,7 @@ function Dashboard() {
       {/* Subscription Example */}
       <section>
         <h2>Live Greetings (Subscription)</h2>
-        <div style={{ padding: '10px', backgroundColor: '#e6f3ff', borderRadius: '5px' }}>
+        <div style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
           <p><strong>Latest Greeting:</strong> {greetingData?.greetings || 'Waiting for messages...'}</p>
         </div>
       </section>
@@ -406,9 +465,6 @@ async function createRootPackageJson(config: ProjectConfig) {
       "dev:codegen": "pnpm --filter codegen dev",
       "install:all": "pnpm install",
       build: "pnpm --recursive run build",
-    },
-    devDependencies: {
-      concurrently: "^8.2.2",
     },
   };
 
@@ -452,11 +508,19 @@ async function generateProject() {
     await generateCodegenProject(config);
     await generateWebUiProject(config);
 
+    // Install dependencies in the root workspace
+    console.log("\n🔄 Installing dependencies in workspace...");
+    const { execSync } = await import("child_process");
+    execSync("pnpm install", {
+      cwd: config.destinationPath,
+      stdio: "inherit",
+    });
+    console.log("✅ Dependencies installed");
+
     console.log("\n🎉 Project generated successfully!");
     console.log("\nNext steps:");
-    console.log(`1. cd ${config.destinationPath}`);
-    console.log("2. pnpm install");
-    console.log("3. pnpm dev");
+    console.log(`cd ${config.destinationPath}`);
+    console.log("pnpm dev");
     console.log("\nEndpoints:");
     console.log("- GraphQL Playground: http://localhost:4000/graphql");
     console.log("- Web UI: http://localhost:5173");
