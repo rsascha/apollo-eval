@@ -1,7 +1,33 @@
 {
   "name": "create-vite-apollo-fs",
-  "version": "1.0.20",
-  "description": "Generate new Apollo GraphQL projects",
+  "version": "1.0.24",
+  "description": "Generate a fullstack project using Node.js Express Apollo GraphQL, codegen for Types and React with Sample Implementation Web-UI",
+  "keywords": [
+    "@apollo/client",
+    "@apollo/server",
+    "@as-integrations/express5",
+    "@graphql-codegen/cli",
+    "@graphql-codegen/graphql-modules-preset",
+    "@graphql-codegen/typescript-operations",
+    "@graphql-codegen/typescript-resolvers",
+    "@graphql-tools/schema",
+    "@parcel/watcher",
+    "cors",
+    "express",
+    "graphql-ws",
+    "graphql",
+    "graphql",
+    "nodejs",
+    "react-dom",
+    "react",
+    "typescript",
+    "vite",
+    "ws"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rsascha/apollo-eval/tree/main/projects"
+  },
   "main": "dist/generator.js",
   "bin": {
     "create-vite-apollo-fs": "./dist/generator.js"
@@ -10,7 +36,6 @@
     "generate": "npx tsx src/generator.ts",
     "build": "tsc"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.13.1",
