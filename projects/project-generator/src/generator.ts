@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 
-import fs from "fs-extra";
-import path from "path";
-import inquirer from "inquirer";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const fs = require("fs-extra");
+const path = require("path");
+const inquirer = require("inquirer").default;
+const { execSync } = require("child_process");
 
 interface ProjectConfig {
   apiName: string;
@@ -170,7 +167,6 @@ async function generateWebUiProject(config: ProjectConfig) {
 
   // Use npm create vite to generate the React project
   console.log("🔄 Creating Vite React project...");
-  const { execSync } = await import("child_process");
 
   try {
     // Create Vite project with React + TypeScript template
@@ -231,7 +227,7 @@ async function generateWebUiProject(config: ProjectConfig) {
     // Add graphqlLoader() to plugins array if not present
     viteConfig = viteConfig.replace(
       /(plugins:\s*\[)([^\]]*)\]/,
-      (match, p1, p2) => {
+      (match: string, p1: string, p2: string) => {
         let plugins = p2.trim().replace(/,$/, "");
         if (!plugins.includes("graphqlLoader()"))
           plugins += ", graphqlLoader()";
@@ -344,7 +340,6 @@ async function generateProject() {
 
     // Install dependencies in the root workspace
     console.log("\n🔄 Installing dependencies in workspace...");
-    const { execSync } = await import("child_process");
     execSync("pnpm install", {
       cwd: config.destinationPath,
       stdio: "inherit",

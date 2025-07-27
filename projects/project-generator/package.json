@@ -1,9 +1,8 @@
 {
   "name": "create-vite-apollo-fs",
-  "version": "1.0.14",
+  "version": "1.0.18",
   "description": "Generate new Apollo GraphQL projects",
-  "type": "module",
-  "main": "src/generator.ts",
+  "main": "dist/generator.js",
   "bin": {
     "create-vite-apollo-fs": "./dist/generator.js"
   },
