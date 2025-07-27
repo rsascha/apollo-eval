@@ -1,23 +1,32 @@
 // @ts-nocheck
 
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import React, { useState } from "react";
-import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import ADD_USER from "./queries/AddUser.graphql";
 import GET_HELLO from "./queries/GetHello.graphql";
 import GET_USERS from "./queries/GetUsers.graphql";
 import ON_GREETINGS from "./queries/OnGreetings.graphql";
+import {
+  type AddUserMutation,
+  type GetHelloQuery,
+  type GetUsersQuery,
+  type OnGreetingsSubscription,
+} from "./types";
 
 function Dashboard() {
   const [userName, setUserName] = useState("");
 
-  const { data: helloData, loading: helloLoading } = useQuery(GET_HELLO);
+  const { data: helloData, loading: helloLoading } =
+    useQuery<GetHelloQuery>(GET_HELLO);
   const {
     data: usersData,
     loading: usersLoading,
     refetch,
-  } = useQuery(GET_USERS);
-  const [addUser, { loading: addUserLoading }] = useMutation(ADD_USER);
-  const { data: greetingData } = useSubscription(ON_GREETINGS);
+  } = useQuery<GetUsersQuery>(GET_USERS);
+  const [addUser, { loading: addUserLoading }] =
+    useMutation<AddUserMutation>(ADD_USER);
+  const { data: greetingData } =
+    useSubscription<OnGreetingsSubscription>(ON_GREETINGS);
 
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +75,7 @@ function Dashboard() {
             <p>Loading users...</p>
           ) : (
             <ul>
-              {usersData?.users?.map((user: any) => (
+              {usersData?.users?.map((user) => (
                 <li key={user.id}>
                   {user.name} (ID: {user.id})
                 </li>

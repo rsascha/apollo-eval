@@ -132,7 +132,7 @@ async function generateCodegenProject(config: ProjectConfig) {
   // Read and modify package.json from template
   const codegenPackageJsonTemplate = readTemplate("codegen/package.json");
   const codegenPackageJson = JSON.parse(codegenPackageJsonTemplate);
-  codegenPackageJson.name = `@${config.apiName}/codegen`;
+  codegenPackageJson.name = `codegen`;
   await fs.writeJson(
     path.join(targetCodegenPath, "package.json"),
     codegenPackageJson,
