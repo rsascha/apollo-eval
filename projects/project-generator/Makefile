@@ -14,5 +14,6 @@ test: delete
 		--webUiName=$(WEB_UI)
 
 publish: 
+	pnpm run build
 	npm version patch
 	npm publish --access public
