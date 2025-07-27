@@ -65,6 +65,12 @@ async function promptForProjectConfig(): Promise<ProjectConfig> {
   };
 }
 
+// Templates will be read from filesystem
+const readTemplate = (templateName: string): string => {
+  const templatePath = path.join(__dirname, "..", "templates", templateName);
+  return fs.readFileSync(templatePath, "utf-8");
+};
+
 async function generateApiProject(config: ProjectConfig) {
   const sourceApiPath = path.resolve(__dirname, "../../api");
   const targetApiPath = path.join(config.destinationPath, config.apiName);
@@ -93,64 +99,17 @@ async function generateApiProject(config: ProjectConfig) {
   const srcDir = path.join(targetApiPath, "src");
   await fs.ensureDir(srcDir);
 
-  // Create dummy schema.graphql
-  const dummySchema = `type Query {
-  hello: String!
-  users: [User!]!
-}
+  // Write GraphQL schema from template
+  await fs.writeFile(
+    path.join(srcDir, "schema.graphql"),
+    readTemplate("schema.graphql")
+  );
 
-type Mutation {
-  addUser(name: String!): User!
-}
-
-type Subscription {
-  greetings: String!
-}
-
-type User {
-  id: ID!
-  name: String!
-}`;
-
-  await fs.writeFile(path.join(srcDir, "schema.graphql"), dummySchema);
-
-  // Create dummy resolvers.ts
-  const dummyResolvers = `export const resolvers = {
-  Query: {
-    hello: () => 'Hello World!',
-    users: () => [
-      { id: '1', name: 'John Doe' },
-      { id: '2', name: 'Jane Smith' }
-    ]
-  },
-  Mutation: {
-    addUser: (_: any, { name }: { name: string }) => {
-      const newUser = { id: Date.now().toString(), name };
-      console.log('Adding user:', newUser);
-      return newUser;
-    }
-  },
-  Subscription: {
-    greetings: {
-      subscribe: () => {
-        const messages = ['Hello!', 'Hi there!', 'Welcome!', 'Good day!'];
-        let index = 0;
-        
-        return {
-          [Symbol.asyncIterator]: async function* () {
-            while (true) {
-              yield { greetings: messages[index % messages.length] };
-              index++;
-              await new Promise(resolve => setTimeout(resolve, 2000));
-            }
-          }
-        };
-      }
-    }
-  }
-};`;
-
-  await fs.writeFile(path.join(srcDir, "resolvers.ts"), dummyResolvers);
+  // Write resolvers from template
+  await fs.writeFile(
+    path.join(srcDir, "resolvers.ts"),
+    readTemplate("resolvers.ts")
+  );
 
   // Copy server.ts from the source API project
   await fs.copy(
@@ -236,212 +195,37 @@ async function generateWebUiProject(config: ProjectConfig) {
     // Create queries directory
     await fs.ensureDir(path.join(targetWebUiPath, "src/queries"));
 
-    // Create GraphQL queries
-    const helloQuery = `query GetHello {
-  hello
-}`;
+    // Create GraphQL queries from templates
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/GetHello.graphql"),
-      helloQuery
+      readTemplate("GetHello.graphql")
     );
 
-    const usersQuery = `query GetUsers {
-  users {
-    id
-    name
-  }
-}`;
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/GetUsers.graphql"),
-      usersQuery
+      readTemplate("GetUsers.graphql")
     );
 
-    const addUserMutation = `mutation AddUser($name: String!) {
-  addUser(name: $name) {
-    id
-    name
-  }
-}`;
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/AddUser.graphql"),
-      addUserMutation
+      readTemplate("AddUser.graphql")
     );
 
-    const greetingsSubscription = `subscription OnGreetings {
-  greetings
-}`;
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/OnGreetings.graphql"),
-      greetingsSubscription
+      readTemplate("OnGreetings.graphql")
     );
 
-    // Create simple App.tsx for the generated project
-    const appTsx = `import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
-import { split } from '@apollo/client';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { createClient } from 'graphql-ws';
-import Dashboard from './Dashboard';
-import './App.css';
-
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
-});
-
-const wsLink = new GraphQLWsLink(createClient({
-  url: 'ws://localhost:4000/graphql',
-}));
-
-const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
+    // Create App.tsx from template
+    await fs.writeFile(
+      path.join(targetWebUiPath, "src/App.tsx"),
+      readTemplate("App.tsx")
     );
-  },
-  wsLink,
-  httpLink,
-);
 
-const client = new ApolloClient({
-  link: splitLink,
-  cache: new InMemoryCache(),
-});
-
-function App() {
-  return (
-    <ApolloProvider client={client}>
-      <Dashboard />
-    </ApolloProvider>
-  );
-}
-
-export default App;`;
-
-    await fs.writeFile(path.join(targetWebUiPath, "src/App.tsx"), appTsx);
-
-    // Create Dashboard component
-    const dashboardTsx = `import React, { useState } from 'react';
-import { useQuery, useMutation, useSubscription } from '@apollo/client';
-import { gql } from '@apollo/client';
-
-const GET_HELLO = gql\`
-  query GetHello {
-    hello
-  }
-\`;
-
-const GET_USERS = gql\`
-  query GetUsers {
-    users {
-      id
-      name
-    }
-  }
-\`;
-
-const ADD_USER = gql\`
-  mutation AddUser($name: String!) {
-    addUser(name: $name) {
-      id
-      name
-    }
-  }
-\`;
-
-const ON_GREETINGS = gql\`
-  subscription OnGreetings {
-    greetings
-  }
-\`;
-
-function Dashboard() {
-  const [userName, setUserName] = useState('');
-  
-  const { data: helloData, loading: helloLoading } = useQuery(GET_HELLO);
-  const { data: usersData, loading: usersLoading, refetch } = useQuery(GET_USERS);
-  const [addUser, { loading: addUserLoading }] = useMutation(ADD_USER);
-  const { data: greetingData } = useSubscription(ON_GREETINGS);
-
-  const handleAddUser = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (userName.trim()) {
-      await addUser({ variables: { name: userName } });
-      setUserName('');
-      refetch();
-    }
-  };
-
-  return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>GraphQL Dashboard</h1>
-
-      {/* Query Example */}
-      <section style={{ marginBottom: '30px' }}>
-        <h2>Query Example</h2>
-        <div style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
-          {helloLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <p><strong>Hello Query:</strong> {helloData?.hello}</p>
-          )}
-        </div>
-      </section>
-
-      {/* Users List */}
-      <section style={{ marginBottom: '30px' }}>
-        <h2>Users (Query)</h2>
-        <div style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
-          {usersLoading ? (
-            <p>Loading users...</p>
-          ) : (
-            <ul>
-              {usersData?.users?.map((user: any) => (
-                <li key={user.id}>{user.name} (ID: {user.id})</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </section>
-
-      {/* Mutation Example */}
-      <section style={{ marginBottom: '30px' }}>
-        <h2>Add User (Mutation)</h2>
-        <form onSubmit={handleAddUser} style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
-          <input
-            type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder="Enter user name"
-            style={{ padding: '5px', marginRight: '10px' }}
-          />
-          <button 
-            type="submit" 
-            disabled={addUserLoading}
-            style={{ padding: '5px 10px' }}
-          >
-            {addUserLoading ? 'Adding...' : 'Add User'}
-          </button>
-        </form>
-      </section>
-
-      {/* Subscription Example */}
-      <section>
-        <h2>Live Greetings (Subscription)</h2>
-        <div style={{ padding: '10px', backgroundColor: 'black', borderRadius: '5px' }}>
-          <p><strong>Latest Greeting:</strong> {greetingData?.greetings || 'Waiting for messages...'}</p>
-        </div>
-      </section>
-    </div>
-  );
-}
-
-export default Dashboard;`;
-
+    // Create Dashboard component from template
     await fs.writeFile(
       path.join(targetWebUiPath, "src/Dashboard.tsx"),
-      dashboardTsx
+      readTemplate("Dashboard.tsx")
     );
 
     console.log("✅ Web UI project created successfully");
