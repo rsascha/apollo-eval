@@ -3,6 +3,10 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import { gql } from "@apollo/client";
+import ADD_USER from "./queries/AddUser.graphql";
+import GET_HELLO from "./queries/GetHello.graphql";
+import GET_USERS from "./queries/GetUsers.graphql";
+import ON_GREETINGS from "./queries/OnGreetings.graphql";
 
 function Dashboard() {
   const [userName, setUserName] = useState("");

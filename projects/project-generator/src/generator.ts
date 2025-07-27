@@ -183,14 +183,63 @@ async function generateWebUiProject(config: ProjectConfig) {
 
     console.log("✅ Vite project created");
 
-    // Install Apollo Client dependencies
-    console.log("🔄 Installing Apollo Client dependencies...");
-    execSync(`pnpm add @apollo/client graphql graphql-ws`, {
-      cwd: targetWebUiPath,
-      stdio: "inherit",
-    });
+    // Install Apollo Client dependencies und vite-plugin-graphql-loader
+    console.log(
+      "🔄 Installing Apollo Client dependencies und vite-plugin-graphql-loader..."
+    );
+    execSync(
+      `pnpm add @apollo/client graphql graphql-ws vite-plugin-graphql-loader`,
+      {
+        cwd: targetWebUiPath,
+        stdio: "inherit",
+      }
+    );
 
-    console.log("✅ Apollo dependencies installed");
+    console.log(
+      "✅ Apollo dependencies und vite-plugin-graphql-loader installiert"
+    );
+
+    // Patch vite.config.ts to add vite-plugin-graphql-loader only
+    const viteConfigPath = path.join(targetWebUiPath, "vite.config.ts");
+    let viteConfig = await fs.readFile(viteConfigPath, "utf-8");
+    // Add vite-plugin-graphql-loader import if not present
+    if (!viteConfig.includes("vite-plugin-graphql-loader")) {
+      if (/import\s+tailwindcss[^;]+;/.test(viteConfig)) {
+        viteConfig = viteConfig.replace(
+          /(import\s+tailwindcss[^;]+;)/,
+          `$1\nimport graphqlLoader from 'vite-plugin-graphql-loader';`
+        );
+      } else if (/import\s+react[^;]+;/.test(viteConfig)) {
+        viteConfig = viteConfig.replace(
+          /(import\s+react[^;]+;)/,
+          `$1\nimport graphqlLoader from 'vite-plugin-graphql-loader';`
+        );
+      } else {
+        viteConfig =
+          `import graphqlLoader from 'vite-plugin-graphql-loader';\n` +
+          viteConfig;
+      }
+    }
+    // Remove vite-tsconfig-paths import if present
+    viteConfig = viteConfig.replace(
+      /\n?import tsconfigPaths from ['"]vite-tsconfig-paths['"];?/,
+      ""
+    );
+    // Remove tsconfigPaths() from plugins array if present
+    viteConfig = viteConfig.replace(/,?\s*tsconfigPaths\(\)/g, "");
+    // Add graphqlLoader() to plugins array if not present
+    viteConfig = viteConfig.replace(
+      /(plugins:\s*\[)([^\]]*)\]/,
+      (match, p1, p2) => {
+        let plugins = p2.trim().replace(/,$/, "");
+        if (!plugins.includes("graphqlLoader()"))
+          plugins += ", graphqlLoader()";
+        // Clean up any double commas
+        plugins = plugins.replace(/,,/g, ",");
+        return `${p1}${plugins}]`;
+      }
+    );
+    await fs.writeFile(viteConfigPath, viteConfig);
 
     // Create queries directory
     await fs.ensureDir(path.join(targetWebUiPath, "src/queries"));

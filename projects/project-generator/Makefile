@@ -1,12 +1,13 @@
 PROJECT = test-project
+API = test-api
+WEB_UI = test-web-ui
 
 delete:
-	rm -rf ../$(PROJECT)
-	mkdir -p ../$(PROJECT)
-	echo "*" > ../$(PROJECT)/.gitignore
+	rm -rf ../$(PROJECT)/$(API)
+	rm -rf ../$(PROJECT)/$(WEB_UI)
 
 test: delete
 	pnpm run generate \
 		--destinationPath=../$(PROJECT) \
-		--apiName=test-api \
-		--webUiName=test-web-ui 
+		--apiName=$(API) \
+		--webUiName=$(WEB_UI)
