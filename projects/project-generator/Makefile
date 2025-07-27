@@ -7,6 +7,7 @@ delete:
 	rm -rf ../$(PROJECT)/$(WEB_UI)
 
 test: delete
+	mkdir -p ../$(PROJECT)
 	pnpm run generate \
 		--destinationPath=../$(PROJECT) \
 		--apiName=$(API) \
