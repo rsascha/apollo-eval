@@ -66,7 +66,12 @@ async function promptForProjectConfig(): Promise<ProjectConfig> {
 // Templates will be read from filesystem
 const readTemplate = (templateName: string): string => {
   const templatePath = path.join(__dirname, "..", "templates", templateName);
-  return fs.readFileSync(templatePath, "utf-8");
+  let content = fs.readFileSync(templatePath, "utf-8");
+
+  // Remove @ts-nocheck comments before copying templates
+  content = content.replace(/^\/\/ @ts-nocheck\s*\n/m, "");
+
+  return content;
 };
 
 async function generateApiProject(config: ProjectConfig) {
@@ -268,6 +273,12 @@ async function generateWebUiProject(config: ProjectConfig) {
     await fs.writeFile(
       path.join(targetWebUiPath, "src/Dashboard.tsx"),
       readTemplate("web-ui/Dashboard.tsx")
+    );
+
+    // Create graphql.d.ts for GraphQL module declarations
+    await fs.writeFile(
+      path.join(targetWebUiPath, "src/graphql.d.ts"),
+      readTemplate("web-ui/graphql.d.ts")
     );
 
     console.log("✅ Web UI project created successfully");
