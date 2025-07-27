@@ -70,7 +70,6 @@ const readTemplate = (templateName: string): string => {
 };
 
 async function generateApiProject(config: ProjectConfig) {
-  const sourceApiPath = path.resolve(__dirname, "../../api");
   const targetApiPath = path.join(config.destinationPath, config.apiName);
 
   console.log(`📦 Creating API project at: ${targetApiPath}`);
@@ -78,19 +77,18 @@ async function generateApiProject(config: ProjectConfig) {
   // Create API directory
   await fs.ensureDir(targetApiPath);
 
-  // Copy package.json and modify
-  const apiPackageJson = await fs.readJson(
-    path.join(sourceApiPath, "package.json")
-  );
+  // Read and modify package.json from template
+  const apiPackageJsonTemplate = readTemplate("api/package.json");
+  const apiPackageJson = JSON.parse(apiPackageJsonTemplate);
   apiPackageJson.name = `@${config.apiName}/api`;
   await fs.writeJson(path.join(targetApiPath, "package.json"), apiPackageJson, {
     spaces: 2,
   });
 
-  // Copy tsconfig.json
-  await fs.copy(
-    path.join(sourceApiPath, "tsconfig.json"),
-    path.join(targetApiPath, "tsconfig.json")
+  // Write tsconfig.json from template
+  await fs.writeFile(
+    path.join(targetApiPath, "tsconfig.json"),
+    readTemplate("api/tsconfig.json")
   );
 
   // Create src directory
@@ -100,26 +98,25 @@ async function generateApiProject(config: ProjectConfig) {
   // Write GraphQL schema from template
   await fs.writeFile(
     path.join(srcDir, "schema.graphql"),
-    readTemplate("schema.graphql")
+    readTemplate("api/schema.graphql")
   );
 
   // Write resolvers from template
   await fs.writeFile(
     path.join(srcDir, "resolvers.ts"),
-    readTemplate("resolvers.ts")
+    readTemplate("api/resolvers.ts")
   );
 
-  // Copy server.ts from the source API project
-  await fs.copy(
-    path.join(sourceApiPath, "src/server.ts"),
-    path.join(srcDir, "server.ts")
+  // Write server.ts from template
+  await fs.writeFile(
+    path.join(srcDir, "server.ts"),
+    readTemplate("api/server.ts")
   );
 
   console.log("✅ API project created successfully");
 }
 
 async function generateCodegenProject(config: ProjectConfig) {
-  const sourceCodegenPath = path.resolve(__dirname, "../../codegen");
   const targetCodegenPath = path.join(config.destinationPath, "codegen");
 
   console.log(`📦 Creating Codegen project at: ${targetCodegenPath}`);
@@ -127,10 +124,9 @@ async function generateCodegenProject(config: ProjectConfig) {
   // Create codegen directory
   await fs.ensureDir(targetCodegenPath);
 
-  // Copy and modify package.json
-  const codegenPackageJson = await fs.readJson(
-    path.join(sourceCodegenPath, "package.json")
-  );
+  // Read and modify package.json from template
+  const codegenPackageJsonTemplate = readTemplate("codegen/package.json");
+  const codegenPackageJson = JSON.parse(codegenPackageJsonTemplate);
   codegenPackageJson.name = `@${config.apiName}/codegen`;
   await fs.writeJson(
     path.join(targetCodegenPath, "package.json"),
@@ -244,34 +240,34 @@ async function generateWebUiProject(config: ProjectConfig) {
     // Create GraphQL queries from templates
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/GetHello.graphql"),
-      readTemplate("GetHello.graphql")
+      readTemplate("web-ui/queries/GetHello.graphql")
     );
 
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/GetUsers.graphql"),
-      readTemplate("GetUsers.graphql")
+      readTemplate("web-ui/queries/GetUsers.graphql")
     );
 
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/AddUser.graphql"),
-      readTemplate("AddUser.graphql")
+      readTemplate("web-ui/queries/AddUser.graphql")
     );
 
     await fs.writeFile(
       path.join(targetWebUiPath, "src/queries/OnGreetings.graphql"),
-      readTemplate("OnGreetings.graphql")
+      readTemplate("web-ui/queries/OnGreetings.graphql")
     );
 
     // Create App.tsx from template
     await fs.writeFile(
       path.join(targetWebUiPath, "src/App.tsx"),
-      readTemplate("App.tsx")
+      readTemplate("web-ui/App.tsx")
     );
 
     // Create Dashboard component from template
     await fs.writeFile(
       path.join(targetWebUiPath, "src/Dashboard.tsx"),
-      readTemplate("Dashboard.tsx")
+      readTemplate("web-ui/Dashboard.tsx")
     );
 
     console.log("✅ Web UI project created successfully");

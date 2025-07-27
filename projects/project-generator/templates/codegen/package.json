@@ -1,0 +1,17 @@
+{
+  "name": "codegen",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "graphql-codegen --watch",
+    "generate": "graphql-codegen"
+  },
+  "dependencies": {
+    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/graphql-modules-preset": "^4.0.17",
+    "@graphql-codegen/typescript-operations": "^4.6.1",
+    "@graphql-codegen/typescript-resolvers": "^4.5.1",
+    "@parcel/watcher": "^2.5.1",
+    "typescript": "~5.8.3"
+  },
+  "packageManager": "pnpm@10.13.1"
+}
