@@ -85,7 +85,7 @@ async function generateApiProject(config: ProjectConfig) {
   // Read and modify package.json from template
   const apiPackageJsonTemplate = readTemplate("api/package.json");
   const apiPackageJson = JSON.parse(apiPackageJsonTemplate);
-  apiPackageJson.name = `@${config.apiName}/api`;
+  apiPackageJson.name = `${config.apiName}`;
   await fs.writeJson(path.join(targetApiPath, "package.json"), apiPackageJson, {
     spaces: 2,
   });

@@ -17,3 +17,5 @@ publish:
 	pnpm run build
 	npm version patch
 	npm publish --access public
+	git commit -am "Release version $(shell node -p "require('./package.json').version")"
+	git push
