@@ -2,6 +2,12 @@
 
 ## Development Workflow
 
+`pnpm dev` will run:
+
+- `api`: Apollo server with GraphQL API
+- `codegen`: Watches for changes in GraphQL files and generates TypeScript types
+- `web-ui`: React application with Apollo Client
+
 ### Schema and Resolvers
 
 Modify the following files:
@@ -61,6 +67,7 @@ query GetActors {
 
 The following file is auto-generated:
 
+- `api/src/types.ts`
 - `web-ui/src/types.ts`
 
 Modify the your component.
