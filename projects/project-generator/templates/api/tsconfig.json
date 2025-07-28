@@ -33,6 +33,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["src/**/*", "src/db/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
