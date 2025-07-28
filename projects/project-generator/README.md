@@ -53,7 +53,3 @@ See: [Development Workflow](https://github.com/rsascha/apollo-eval/blob/main/pro
 - https://www.apollographql.com/docs/apollo-server
 - https://nodejs.org
 - https://expressjs.com/
-
-## temp
-
-- Github testing 1
