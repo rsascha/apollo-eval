@@ -18,13 +18,23 @@ You get sample code for a GraphQL API and a React frontend that can be used as a
 
 Web-Socket support is included for real-time updates.
 
-## Example Command
+## Example Commands
+
+This command will ask you for a destination path, api name and web-ui name:
 
 ```sh
-npm create vite-apollo-fs@latest --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
+npm create vite-apollo-fs@latest
 ```
 
-Target File Structure:
+This command will create a project in the specified destination path with the given API and web UI names:
+
+```sh
+npm create vite-apollo-fs@latest -- --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
+# or
+npx create-vite-apollo-fs@latest --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
+```
+
+Destination File Structure:
 
 ```
 myProject
@@ -32,10 +42,6 @@ myProject
 ├── my-api
 └── my-web-ui
 ```
-
-## TODOs
-
-- [ ] fix TypeScript template issues
 
 ## References
 
