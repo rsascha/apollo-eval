@@ -33,7 +33,6 @@
     "create-vite-apollo-fs": "./dist/generator.js"
   },
   "scripts": {
-    "generate": "npx tsx src/generator.ts",
     "build": "tsc"
   },
   "author": "",
