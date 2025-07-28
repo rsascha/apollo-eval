@@ -2,11 +2,16 @@ import { db } from "@/db";
 import { pubsub } from "@/pubsub";
 
 export function addMovie(title: string, actorIds: string[]) {
+  // Get the next available ID
+  const maxIdResult = db.connection
+    .prepare("SELECT MAX(CAST(id AS INTEGER)) as maxId FROM movies")
+    .get() as { maxId: number | null };
+  const nextId = ((maxIdResult?.maxId || 0) + 1).toString();
+
   const insertMovie = db.connection.prepare(
-    "INSERT INTO movies (title) VALUES (?)"
+    "INSERT INTO movies (id, title) VALUES (?, ?)"
   );
-  const movieResult = insertMovie.run(title);
-  const movieId = movieResult.lastInsertRowid.toString();
+  insertMovie.run(nextId, title);
 
   if (actorIds.length > 0) {
     const insertMovieActor = db.connection.prepare(
@@ -14,14 +19,14 @@ export function addMovie(title: string, actorIds: string[]) {
     );
 
     for (const actorId of actorIds) {
-      insertMovieActor.run(movieId, actorId);
+      insertMovieActor.run(nextId, actorId);
     }
   }
 
   pubsub.emit("MOVIES_UPDATED");
 
   return {
-    id: movieId,
+    id: nextId,
     title: title,
   };
 }

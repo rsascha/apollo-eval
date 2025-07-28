@@ -16,15 +16,15 @@ if (dbExists) {
 }
 
 const DatabaseActorSql = `
-    CREATE TABLE IF NOT EXISTS actors (
-      id TEXT PRIMARY KEY,
-      name TEXT NOT NULL
-    ); 
-    INSERT INTO actors (id, name) VALUES
-      ('1', 'Leonardo DiCaprio'),
-      ('2', 'Keanu Reeves'),
-      ('3', 'Marion Cotillard')
-    ON CONFLICT(id) DO NOTHING;
+CREATE TABLE IF NOT EXISTS actors (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL
+); 
+INSERT INTO actors (id, name) VALUES
+  ('1', 'Leonardo DiCaprio'),
+  ('2', 'Keanu Reeves'),
+  ('3', 'Marion Cotillard')
+ON CONFLICT(id) DO NOTHING;
   `;
 
 export interface DatabaseActor {
@@ -36,13 +36,13 @@ const DatabaseMovieSql = `
 CREATE TABLE IF NOT EXISTS movies (
   id TEXT PRIMARY KEY,
   title TEXT NOT NULL
-  );
-  INSERT INTO movies (id, title) VALUES
-  (1, 'Inception'),
-  (2, 'The Matrix'),
-  (3, 'John Wick'), 
-  (4, 'The Dark Knight')
-  ON CONFLICT(id) DO NOTHING;
+);
+INSERT INTO movies (id, title) VALUES
+  ('1', 'Inception'),
+  ('2', 'The Matrix'),
+  ('3', 'John Wick'), 
+  ('4', 'The Dark Knight')
+ON CONFLICT(id) DO NOTHING;
   `;
 
 export interface DatabaseMovie {
@@ -51,19 +51,19 @@ export interface DatabaseMovie {
 }
 
 const DatabaseMovieActorSql = `
-    CREATE TABLE IF NOT EXISTS movies_actors (
-      movie_id TEXT,
-      actor_id TEXT,
-      PRIMARY KEY (movie_id, actor_id),
-      FOREIGN KEY (movie_id) REFERENCES movies(id),
-      FOREIGN KEY (actor_id) REFERENCES actors(id)
-    ); 
-    INSERT INTO movies_actors (movie_id, actor_id) VALUES
-      ('1', '1'),
-      ('1', '3'),
-      ('2', '2'),
-      ('3', '2')
-    ON CONFLICT(movie_id, actor_id) DO NOTHING;
+CREATE TABLE IF NOT EXISTS movies_actors (
+  movie_id TEXT,
+  actor_id TEXT,
+  PRIMARY KEY (movie_id, actor_id),
+  FOREIGN KEY (movie_id) REFERENCES movies(id),
+  FOREIGN KEY (actor_id) REFERENCES actors(id)
+); 
+INSERT INTO movies_actors (movie_id, actor_id) VALUES
+  ('1', '1'),
+  ('1', '3'),
+  ('2', '2'),
+  ('3', '2')
+ON CONFLICT(movie_id, actor_id) DO NOTHING;
   `;
 
 export interface DatabaseMovieActor {
