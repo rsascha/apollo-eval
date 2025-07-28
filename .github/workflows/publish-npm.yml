@@ -42,15 +42,13 @@ jobs:
           cd projects/project-generator
           pnpm build
 
-      - name: Commit and push version bump
+      - name: Amend last commit with version bump
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          ORIGINAL_MSG=$(git log -1 --pretty=%B)
           git add .
-          git commit -m "${ORIGINAL_MSG} (bump api version)"
-          git pull --rebase origin main
-          git push
+          git commit --amend --no-edit
+          git push --force-with-lease
 
       - name: Publish to NPM
         run: |
