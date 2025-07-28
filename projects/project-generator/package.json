@@ -1,6 +1,6 @@
 {
   "name": "create-vite-apollo-fs",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "Generate a fullstack project using Apollo GraphQL (node.js, express), graphql-codegen for Types and React (vite)",
   "keywords": [
     "@apollo/client",
