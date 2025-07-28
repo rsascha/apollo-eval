@@ -8,7 +8,7 @@ npm create vite-apollo-fs@latest
 
 ## Result
 
-This template creates a Vite project with Apollo Server and Node.js Express, including:
+This template creates a React project (vite) with Apollo Server (Node.js / Express), including:
 
 - api: Apollo Server with GraphQL support
 - codegen: Code generation for TypeScript types from GraphQL schema
@@ -26,18 +26,20 @@ This command will ask you for a destination path, api name and web-ui name:
 npm create vite-apollo-fs@latest
 ```
 
-This command will create a project in the specified destination path with the given API and web UI names:
+Using parameters:
 
 ```sh
 npm create vite-apollo-fs@latest -- --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
+
 # or
+
 npx create-vite-apollo-fs@latest --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
 ```
 
 Destination File Structure:
 
 ```
-myProject
+my-project
 ├── codegen
 ├── my-api
 └── my-web-ui
