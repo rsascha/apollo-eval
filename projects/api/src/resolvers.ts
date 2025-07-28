@@ -1,6 +1,7 @@
 import { DatabaseActor, DatabaseMovie, db } from "@/db";
-import { AddMovieInput } from "./types";
+import { AddMovieInput, Resolvers } from "./types";
 import { EventEmitter } from "events";
+import { getMovies } from "./functions";
 
 const pubsub = new EventEmitter();
 
@@ -10,18 +11,9 @@ async function fetchRandomWord(): Promise<string> {
   return data[0];
 }
 
-export const resolvers = {
+export const resolvers: Resolvers = {
   Query: {
-    movies: () => {
-      const dbResult = db.connection
-        .prepare("SELECT id, title FROM movies")
-        .all() as DatabaseMovie[];
-      const result = dbResult.map((movie) => ({
-        id: movie.id.toString(),
-        title: movie.title,
-      }));
-      return result;
-    },
+    movies: () => getMovies(),
     actors: () => {
       const dbResult = db.connection
         .prepare("SELECT id, name FROM actors")
