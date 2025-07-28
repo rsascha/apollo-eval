@@ -1,41 +1,58 @@
 # Apollo Eval
 
-Ein GraphQL-Evaluationsprojekt, das Entwicklung mit Apollo Server und React demonstriert.
+A GraphQL evaluation project demonstrating development with Apollo Server and React.
 
-### Technologien & Features
+## Generator
+
+This project includes a template for quickly setting up a full-stack application with Apollo Server (Node.js Express), Graph QL Code Generation (for TypeScript types) and a React frontend (vite).
+
+More information:
+
+- [npm package](https://www.npmjs.com/package/create-vite-apollo-fs)
+- [source code](projects/project-generator/README.md)
+
+Or run:
+
+```sh
+npm create vite-apollo-fs@latest
+```
+
+## Project Description (not part of generated project)
+
+### Technologies & Features
 
 **Backend (Apollo Server):**
 
-- GraphQL-Schema mit Queries, Mutations und Subscriptions
-- SQLite-Datenbank mit automatischer Schema-Erstellung
-- TypeScript mit automatischer Code-Generierung
-- WebSocket-Support für Real-time Updates
+- GraphQL schema with Queries, Mutations and Subscriptions
+- SQLite database with automatic schema creation
+- TypeScript with automatic code generation
+- WebSocket support for real-time updates
 
 **Frontend (React):**
 
-- Apollo Client für GraphQL-Integration
-- TypeScript mit automatischer Type-Generierung
-- React Router für Navigation
-- Tailwind CSS für Styling
-- Vite als Build-Tool
+- Apollo Client for GraphQL integration
+- TypeScript with automatic type generation
+- React Router for navigation
+- Tailwind CSS for styling
+- Vite as build tool
 
-**Architektur:**
+**Architecture:**
 
-- Monorepo-Struktur mit pnpm Workspaces
-- Automatische Code-Generierung aus GraphQL-Schema
-- Hot Reload für Backend und Frontend
-- Separate `*.graphql` Query-Dateien
+- Monorepo structure with pnpm Workspaces
+- Automatic code generation from GraphQL schema
+- Hot reload for backend and frontend
+- Separate `*.graphql` query files
 
-### Funktionalitäten
+### Features
 
-- **Movies verwalten:** Filme hinzufügen und anzeigen
-- **Actors verwalten:** Schauspieler und ihre Filme
-- **Relationen:** Many-to-Many Beziehungen zwischen Filmen und Schauspielern
-- **Real-time Updates:** WebSocket Subscriptions
-- **Database Management:** Datenbank erstellen und löschen
-- **GraphQL Playground:** Integrierte Entwicklungsumgebung
+- **Movie management:** Add and display movies
+- **Actor management:** Actors and their movies
+- **Relations:** Many-to-many relationships between movies and actors
+- **Real-time updates:** WebSocket subscriptions
+- **Database management:** Create and delete database
+- **GraphQL Playground:** Integrated development environment
 
-Weitere Details zum Entwicklungsworkflow findest du in [projects](projects/README.md).
+For more details on the development workflow, see [projects](projects/README.md).
 
 ## Development
 
