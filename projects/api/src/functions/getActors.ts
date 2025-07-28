@@ -4,7 +4,7 @@ import { Actor } from "@/types";
 export function getActors(): Actor[] {
   const dbResult = db.connection
     .prepare("SELECT id, name FROM actors")
-    .all() as DatabaseActor[];
+    .all() as unknown as DatabaseActor[];
   const result: Actor[] = dbResult.map((actor) => ({
     id: actor.id,
     name: actor.name,

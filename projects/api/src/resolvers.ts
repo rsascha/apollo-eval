@@ -10,8 +10,8 @@ import {
   getMovies,
   getMoviesForActor,
   subscribeToGreetings,
+  subscribeToMoviesReload,
 } from "./functions";
-import { pubsub } from "./pubsub";
 import {
   AddMovieInput,
   QueryActorArgs,
@@ -41,21 +41,10 @@ export const resolvers: Resolvers = {
   },
   Subscription: {
     greetings: {
-      subscribe: subscribeToGreetings(),
+      subscribe: () => subscribeToGreetings(),
     },
     triggerMoviesReload: {
-      subscribe: async function* () {
-        while (true) {
-          await new Promise<void>((resolve) => {
-            const handler = () => {
-              pubsub.removeListener("MOVIES_UPDATED", handler);
-              resolve();
-            };
-            pubsub.on("MOVIES_UPDATED", handler);
-          });
-          yield { triggerMoviesReload: true };
-        }
-      },
+      subscribe: () => subscribeToMoviesReload(),
     },
   },
 };

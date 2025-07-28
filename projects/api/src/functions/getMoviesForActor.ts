@@ -11,7 +11,7 @@ export function getMoviesForActor(actorId: string): Movie[] {
           WHERE ma.actor_id = ?
         `
     )
-    .all(actorId) as DatabaseMovie[];
+    .all(actorId) as unknown as DatabaseMovie[];
   const result: Movie[] = dbResult.map((movie) => ({
     id: movie.id,
     title: movie.title,

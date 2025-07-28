@@ -8,3 +8,4 @@ export * from "./deleteDatabase";
 export * from "./getActorsForMovie";
 export * from "./getMoviesForActor";
 export * from "./subscribeToGreetings";
+export * from "./subscribeToMoviesReload";
