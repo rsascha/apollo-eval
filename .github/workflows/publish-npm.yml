@@ -1,0 +1,56 @@
+name: Publish to NPM
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "projects/project-generator/**"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.13.1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Bump version
+        run: |
+          cd projects/project-generator
+          npm version patch --no-git-tag-version
+
+      - name: Build project-generator
+        run: |
+          cd projects/project-generator
+          pnpm build
+
+      - name: Commit version bump
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B | head -n 1)
+          git add projects/project-generator/package.json
+          git commit -m "chore: version bump of: $LAST_COMMIT_MSG [skip ci]" || exit 0
+          git push
+
+      - name: Publish to NPM
+        run: |
+          cd projects/project-generator
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
