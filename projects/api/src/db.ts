@@ -34,7 +34,7 @@ export interface DatabaseActor {
 
 const DatabaseMovieSql = `
 CREATE TABLE IF NOT EXISTS movies (
-  id INTEGER PRIMARY KEY,
+  id TEXT PRIMARY KEY,
   title TEXT NOT NULL
   );
   INSERT INTO movies (id, title) VALUES
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS movies (
   `;
 
 export interface DatabaseMovie {
-  id: number;
+  id: string;
   title: string;
 }
 
