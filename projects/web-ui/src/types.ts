@@ -17,7 +17,7 @@ export type Scalars = {
 export type Actor = {
   __typename?: 'Actor';
   id: Scalars['ID']['output'];
-  movies: Array<Movie>;
+  movies?: Maybe<Array<Movie>>;
   name: Scalars['String']['output'];
 };
 
@@ -28,7 +28,7 @@ export type AddMovieInput = {
 
 export type Movie = {
   __typename?: 'Movie';
-  actors: Array<Actor>;
+  actors?: Maybe<Array<Actor>>;
   id: Scalars['ID']['output'];
   title: Scalars['String']['output'];
 };
@@ -75,7 +75,7 @@ export type AddMovieMutationVariables = Exact<{
 }>;
 
 
-export type AddMovieMutation = { __typename?: 'Mutation', addMovie: { __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } };
+export type AddMovieMutation = { __typename?: 'Mutation', addMovie: { __typename?: 'Movie', id: string, title: string, actors?: Array<{ __typename?: 'Actor', id: string, name: string }> | null } };
 
 export type DeleteDatabaseMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -87,7 +87,7 @@ export type GetActorQueryVariables = Exact<{
 }>;
 
 
-export type GetActorQuery = { __typename?: 'Query', actor?: { __typename?: 'Actor', id: string, name: string, movies: Array<{ __typename?: 'Movie', id: string, title: string }> } | null };
+export type GetActorQuery = { __typename?: 'Query', actor?: { __typename?: 'Actor', id: string, name: string, movies?: Array<{ __typename?: 'Movie', id: string, title: string }> | null } | null };
 
 export type GetActorsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -97,14 +97,14 @@ export type GetActorsQuery = { __typename?: 'Query', actors?: Array<{ __typename
 export type GetActorsWithMoviesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetActorsWithMoviesQuery = { __typename?: 'Query', actors?: Array<{ __typename?: 'Actor', id: string, name: string, movies: Array<{ __typename?: 'Movie', id: string, title: string }> } | null> | null };
+export type GetActorsWithMoviesQuery = { __typename?: 'Query', actors?: Array<{ __typename?: 'Actor', id: string, name: string, movies?: Array<{ __typename?: 'Movie', id: string, title: string }> | null } | null> | null };
 
 export type GetMovieQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GetMovieQuery = { __typename?: 'Query', movie?: { __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } | null };
+export type GetMovieQuery = { __typename?: 'Query', movie?: { __typename?: 'Movie', id: string, title: string, actors?: Array<{ __typename?: 'Actor', id: string, name: string }> | null } | null };
 
 export type GetMoviesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -114,7 +114,7 @@ export type GetMoviesQuery = { __typename?: 'Query', movies?: Array<{ __typename
 export type GetMoviesWithActorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMoviesWithActorsQuery = { __typename?: 'Query', movies?: Array<{ __typename?: 'Movie', id: string, title: string, actors: Array<{ __typename?: 'Actor', id: string, name: string }> } | null> | null };
+export type GetMoviesWithActorsQuery = { __typename?: 'Query', movies?: Array<{ __typename?: 'Movie', id: string, title: string, actors?: Array<{ __typename?: 'Actor', id: string, name: string }> | null } | null> | null };
 
 export type GetRandomWordQueryVariables = Exact<{ [key: string]: never; }>;
 

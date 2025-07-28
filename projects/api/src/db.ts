@@ -15,6 +15,62 @@ if (dbExists) {
   console.log(`📊 DB created at path: ${dbPath}`);
 }
 
+const DatabaseActorSql = `
+    CREATE TABLE IF NOT EXISTS actors (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL
+    ); 
+    INSERT INTO actors (id, name) VALUES
+      ('1', 'Leonardo DiCaprio'),
+      ('2', 'Keanu Reeves'),
+      ('3', 'Marion Cotillard')
+    ON CONFLICT(id) DO NOTHING;
+  `;
+
+export interface DatabaseActor {
+  id: string;
+  name: string;
+}
+
+const DatabaseMovieSql = `
+CREATE TABLE IF NOT EXISTS movies (
+  id INTEGER PRIMARY KEY,
+  title TEXT NOT NULL
+  );
+  INSERT INTO movies (id, title) VALUES
+  (1, 'Inception'),
+  (2, 'The Matrix'),
+  (3, 'John Wick'), 
+  (4, 'The Dark Knight')
+  ON CONFLICT(id) DO NOTHING;
+  `;
+
+export interface DatabaseMovie {
+  id: number;
+  title: string;
+}
+
+const DatabaseMovieActorSql = `
+    CREATE TABLE IF NOT EXISTS movies_actors (
+      movie_id TEXT,
+      actor_id TEXT,
+      PRIMARY KEY (movie_id, actor_id),
+      FOREIGN KEY (movie_id) REFERENCES movies(id),
+      FOREIGN KEY (actor_id) REFERENCES actors(id)
+    ); 
+    INSERT INTO movies_actors (movie_id, actor_id) VALUES
+      ('1', '1'),
+      ('1', '3'),
+      ('2', '2'),
+      ('3', '2')
+    ON CONFLICT(movie_id, actor_id) DO NOTHING;
+  `;
+
+export interface DatabaseMovieActor {
+  movie_id: string;
+  actor_id: string;
+}
+
 class Database {
   private _connection: DatabaseSync | null = null;
 
@@ -84,59 +140,3 @@ class Database {
 export const db = new Database();
 
 db.create();
-
-const DatabaseActorSql = `
-    CREATE TABLE IF NOT EXISTS actors (
-      id TEXT PRIMARY KEY,
-      name TEXT NOT NULL
-    ); 
-    INSERT INTO actors (id, name) VALUES
-      ('1', 'Leonardo DiCaprio'),
-      ('2', 'Keanu Reeves'),
-      ('3', 'Marion Cotillard')
-    ON CONFLICT(id) DO NOTHING;
-  `;
-
-export interface DatabaseActor {
-  id: string;
-  name: string;
-}
-
-const DatabaseMovieSql = `
-CREATE TABLE IF NOT EXISTS movies (
-  id INTEGER PRIMARY KEY,
-  title TEXT NOT NULL
-  );
-  INSERT INTO movies (id, title) VALUES
-  (1, 'Inception'),
-  (2, 'The Matrix'),
-  (3, 'John Wick'), 
-  (4, 'The Dark Knight')
-  ON CONFLICT(id) DO NOTHING;
-  `;
-
-export interface DatabaseMovie {
-  id: number;
-  title: string;
-}
-
-const DatabaseMovieActorSql = `
-    CREATE TABLE IF NOT EXISTS movies_actors (
-      movie_id TEXT,
-      actor_id TEXT,
-      PRIMARY KEY (movie_id, actor_id),
-      FOREIGN KEY (movie_id) REFERENCES movies(id),
-      FOREIGN KEY (actor_id) REFERENCES actors(id)
-    ); 
-    INSERT INTO movies_actors (movie_id, actor_id) VALUES
-      ('1', '1'),
-      ('1', '3'),
-      ('2', '2'),
-      ('3', '2')
-    ON CONFLICT(movie_id, actor_id) DO NOTHING;
-  `;
-
-export interface DatabaseMovieActor {
-  movie_id: string;
-  actor_id: string;
-}

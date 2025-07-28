@@ -20,13 +20,13 @@ input AddMovieInput {
 type Movie {
   id: ID!
   title: String!
-  actors: [Actor!]!
+  actors: [Actor!]
 }
 
 type Actor {
   id: ID!
   name: String!
-  movies: [Movie!]!
+  movies: [Movie!]
 }
 
 type Subscription {

@@ -1,58 +1,28 @@
 import { DatabaseActor, DatabaseMovie, db } from "@/db";
-import { AddMovieInput, Resolvers } from "./types";
+import {
+  AddMovieInput,
+  QueryActorArgs,
+  QueryMovieArgs,
+  Resolvers,
+} from "./types";
 import { EventEmitter } from "events";
-import { getMovies } from "./functions";
+import {
+  fetchRandomWord,
+  getActor,
+  getActors,
+  getMovie,
+  getMovies,
+} from "./functions";
 
 const pubsub = new EventEmitter();
-
-async function fetchRandomWord(): Promise<string> {
-  const response = await fetch("https://random-word-api.herokuapp.com/word");
-  const data = (await response.json()) as string[];
-  return data[0];
-}
 
 export const resolvers: Resolvers = {
   Query: {
     movies: () => getMovies(),
-    actors: () => {
-      const dbResult = db.connection
-        .prepare("SELECT id, name FROM actors")
-        .all() as DatabaseActor[];
-      const result = dbResult.map((actor) => ({
-        id: actor.id,
-        name: actor.name,
-      }));
-      return result;
-    },
-    movie: (_: any, { id }: { id: string }) => {
-      const dbResult = db.connection
-        .prepare("SELECT id, title FROM movies WHERE id = ?")
-        .get(id) as DatabaseMovie | undefined;
-      if (!dbResult) {
-        return null;
-      }
-      const result = {
-        id: dbResult.id.toString(),
-        title: dbResult.title,
-      };
-      return result;
-    },
-    actor: (_: any, { id }: { id: string }) => {
-      const dbResult = db.connection
-        .prepare("SELECT id, name FROM actors WHERE id = ?")
-        .get(id) as DatabaseActor | undefined;
-      if (!dbResult) {
-        return null;
-      }
-      const result = {
-        id: dbResult.id,
-        name: dbResult.name,
-      };
-      return result;
-    },
-    randomWord: async () => {
-      return await fetchRandomWord();
-    },
+    actors: () => getActors(),
+    movie: (_: any, { id }: QueryMovieArgs) => getMovie(id),
+    actor: (_: any, { id }: QueryActorArgs) => getActor(id),
+    randomWord: async () => fetchRandomWord(),
   },
 
   Mutation: {
