@@ -43,6 +43,8 @@ myProject
 └── my-web-ui
 ```
 
+See: [Development Workflow](https://github.com/rsascha/apollo-eval/blob/main/projects/README.md) for more details on how to use the generated project.
+
 ## References
 
 - https://vite.dev/
