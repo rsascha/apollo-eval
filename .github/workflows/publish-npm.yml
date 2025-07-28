@@ -42,13 +42,14 @@ jobs:
           cd projects/project-generator
           pnpm build
 
-      - name: Commit version bump
+      - name: Commit and push version bump
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          LAST_COMMIT_MSG=$(git log -1 --pretty=%B | head -n 1)
-          git add projects/project-generator/package.json
-          git commit -m "chore: version bump of: $LAST_COMMIT_MSG [skip ci]" || exit 0
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          ORIGINAL_MSG=$(git log -1 --pretty=%B)
+          git add .
+          git commit -m "${ORIGINAL_MSG} (bump api version)"
+          git pull --rebase origin main
           git push
 
       - name: Publish to NPM
