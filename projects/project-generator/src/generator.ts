@@ -281,6 +281,12 @@ async function generateWebUiProject(config: ProjectConfig) {
       readTemplate("web-ui/graphql.d.ts")
     );
 
+    // Generated types.ts
+    await fs.writeFile(
+      path.join(targetWebUiPath, "src/types.ts"),
+      readTemplate("web-ui/types.ts")
+    );
+
     console.log("✅ Web UI project created successfully");
   } catch (error) {
     console.error("❌ Error creating Vite project:", error);
@@ -290,7 +296,7 @@ async function generateWebUiProject(config: ProjectConfig) {
 
 async function createRootPackageJson(config: ProjectConfig) {
   const rootPackageJson = {
-    name: config.apiName,
+    name: "vite-apollo-fs",
     version: "1.0.0",
     description: "Generated Apollo GraphQL project",
     private: true,

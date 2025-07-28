@@ -38,8 +38,15 @@ function Dashboard() {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>GraphQL Dashboard</h1>
+    <div
+      style={{
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#f4f4f4",
+        color: "#333",
+      }}
+    >
+      <h1>Vite Apollo Fullstack Template</h1>
 
       {/* Query Example */}
       <section style={{ marginBottom: "30px" }}>
@@ -47,7 +54,6 @@ function Dashboard() {
         <div
           style={{
             padding: "10px",
-            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
@@ -67,14 +73,13 @@ function Dashboard() {
         <div
           style={{
             padding: "10px",
-            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
           {usersLoading ? (
             <p>Loading users...</p>
           ) : (
-            <ul>
+            <ul style={{ listStyleType: "none", padding: 0 }}>
               {usersData?.users?.map((user) => (
                 <li key={user.id}>
                   {user.name} (ID: {user.id})
@@ -92,7 +97,6 @@ function Dashboard() {
           onSubmit={handleAddUser}
           style={{
             padding: "10px",
-            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
@@ -101,12 +105,23 @@ function Dashboard() {
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             placeholder="Enter user name"
-            style={{ padding: "5px", marginRight: "10px" }}
+            style={{
+              padding: "5px",
+              marginRight: "10px",
+              color: "#333",
+              backgroundColor: "#fff",
+              border: "1px solid #ccc",
+            }}
           />
           <button
             type="submit"
             disabled={addUserLoading}
-            style={{ padding: "5px 10px" }}
+            style={{
+              padding: "5px 10px",
+              color: "#333",
+              backgroundColor: "#fff",
+              border: "1px solid #ccc",
+            }}
           >
             {addUserLoading ? "Adding..." : "Add User"}
           </button>
@@ -119,7 +134,6 @@ function Dashboard() {
         <div
           style={{
             padding: "10px",
-            backgroundColor: "black",
             borderRadius: "5px",
           }}
         >
