@@ -49,9 +49,3 @@ myProject
 - https://www.apollographql.com/docs/apollo-server
 - https://nodejs.org
 - https://expressjs.com/
-
-## Temp
-
-- Testing Github Action 1
-- Testing Github Action 2
-- Testing Github Action 3
