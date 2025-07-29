@@ -61,7 +61,8 @@ function Dashboard() {
             <p>Loading...</p>
           ) : (
             <p>
-              <strong>Hello Query:</strong> {helloData?.hello}
+              <strong>Hello Query:</strong>{" "}
+              <span data-testid="hello-query">{helloData?.hello}</span>
             </p>
           )}
         </div>
@@ -79,7 +80,10 @@ function Dashboard() {
           {usersLoading ? (
             <p>Loading users...</p>
           ) : (
-            <ul style={{ listStyleType: "none", padding: 0 }}>
+            <ul
+              style={{ listStyleType: "none", padding: 0 }}
+              data-testid="users-list"
+            >
               {usersData?.users?.map((user) => (
                 <li key={user.id}>
                   {user.name} (ID: {user.id})
@@ -112,6 +116,7 @@ function Dashboard() {
               backgroundColor: "#fff",
               border: "1px solid #ccc",
             }}
+            data-testid="add-user-input"
           />
           <button
             type="submit"
@@ -122,6 +127,7 @@ function Dashboard() {
               backgroundColor: "#fff",
               border: "1px solid #ccc",
             }}
+            data-testid="add-user-button"
           >
             {addUserLoading ? "Adding..." : "Add User"}
           </button>
@@ -139,7 +145,9 @@ function Dashboard() {
         >
           <p>
             <strong>Latest Greeting:</strong>{" "}
-            {greetingData?.greetings || "Waiting for messages..."}
+            <span data-testid="greetings-subscription">
+              {greetingData?.greetings || "Waiting for messages..."}
+            </span>
           </p>
         </div>
       </section>
