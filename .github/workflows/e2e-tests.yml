@@ -21,12 +21,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.13.1
 
       - name: Install dependencies
         run: pnpm install
@@ -35,7 +36,9 @@ jobs:
         run: pnpm --filter create-vite-apollo-fs build
 
       - name: Generate test project
-        run: node ./projects/project-generator/dist/generator.js --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
+        run: |
+          chmod +x ./projects/project-generator/dist/generator.js
+          ./projects/project-generator/dist/generator.js --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
 
       - name: Install dependencies in generated project
         run: |
