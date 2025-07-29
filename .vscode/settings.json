@@ -1,0 +1,10 @@
+{
+  "typescript.preferences.organizeImports": {
+    "includeCompletionsForModuleExports": true,
+    "includeCompletionsWithInsertText": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always",
+    "source.removeUnusedImports": "always"
+  }
+}

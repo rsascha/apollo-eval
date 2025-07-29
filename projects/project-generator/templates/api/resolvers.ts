@@ -1,9 +1,13 @@
+// @ts-nocheck
+
+import { Resolvers } from "./types";
+
 const users = [
   { id: "1", name: "John Doe" },
   { id: "2", name: "Jane Smith" },
 ];
 
-export const resolvers = {
+export const resolvers: Resolvers = {
   Query: {
     hello: () => "Hello World!",
     users: () => users,
