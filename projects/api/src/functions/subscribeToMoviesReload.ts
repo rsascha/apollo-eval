@@ -1,8 +1,10 @@
+import { logFunctionCall } from "@/logger";
 import { pubsub } from "@/pubsub";
 
 export async function* subscribeToMoviesReload(): AsyncGenerator<{
   triggerMoviesReload: boolean;
 }> {
+  logFunctionCall("subscribeToMoviesReload");
   while (true) {
     await new Promise<void>((resolve) => {
       const handler = () => {

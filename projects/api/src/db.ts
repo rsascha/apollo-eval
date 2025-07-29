@@ -2,6 +2,7 @@ import { existsSync, unlinkSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
+import { logFunctionCall } from "./logger";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -75,12 +76,12 @@ class Database {
   private _connection: DatabaseSync | null = null;
 
   get connection(): DatabaseSync {
+    logFunctionCall("Database.connection");
     if (!this._connection) {
       console.log("📊 Creating new database connection...");
       this._connection = new DatabaseSync(dbPath);
       return this._connection;
     }
-
     try {
       this._connection.exec("SELECT 1");
       return this._connection;
@@ -92,6 +93,7 @@ class Database {
   }
 
   private reconnect(): void {
+    logFunctionCall("Database.reconnect");
     try {
       if (this._connection) {
         try {
@@ -109,6 +111,7 @@ class Database {
   }
 
   create(): boolean {
+    logFunctionCall("Database.create");
     this.connection.exec(DatabaseMovieSql);
     this.connection.exec(DatabaseActorSql);
     this.connection.exec(DatabaseMovieActorSql);
@@ -116,6 +119,7 @@ class Database {
   }
 
   delete(): boolean {
+    logFunctionCall("Database.delete");
     if (!existsSync(dbPath)) {
       console.log("📊 No database to delete.");
       return false;

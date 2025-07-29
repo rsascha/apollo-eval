@@ -1,7 +1,10 @@
 import { DatabaseMovie, db } from "@/db";
 import { Movie } from "@/types";
+import { logFunctionCall } from "@/logger";
 
 export function getMovie(id: string): Movie | null {
+  logFunctionCall("getMovie", id);
+
   const dbResult = db.connection
     .prepare("SELECT id, title FROM movies WHERE id = ?")
     .get(id) as DatabaseMovie | undefined;

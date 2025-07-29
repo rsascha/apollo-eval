@@ -1,7 +1,10 @@
 import { db } from "@/db";
 import { pubsub } from "@/pubsub";
+import { logFunctionCall } from "@/logger";
 
 export function addMovie(title: string, actorIds: string[]) {
+  logFunctionCall("addMovie", title, actorIds);
+
   // Get the next available ID
   const maxIdResult = db.connection
     .prepare("SELECT MAX(CAST(id AS INTEGER)) as maxId FROM movies")

@@ -1,7 +1,10 @@
 import { DatabaseMovie, db } from "@/db";
 import { Movie } from "@/types";
+import { logFunctionCall } from "@/logger";
 
 export function getMoviesForActor(actorId: string): Movie[] {
+  logFunctionCall("getMoviesForActor", actorId);
+
   const dbResult = db.connection
     .prepare(
       `

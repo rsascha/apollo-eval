@@ -1,4 +1,5 @@
 export * from "./getMovies";
+export * from "./getMoviesWithActors";
 export * from "./getActors";
 export * from "./getMovie";
 export * from "./getActor";
