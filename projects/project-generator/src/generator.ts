@@ -234,7 +234,7 @@ async function generateWebUiProject(config: ProjectConfig) {
     // Add graphqlLoader() to plugins array if not present
     viteConfig = viteConfig.replace(
       /(plugins:\s*\[)([^\]]*)\]/,
-      (match: string, p1: string, p2: string) => {
+      (_: string, p1: string, p2: string) => {
         let plugins = p2.trim().replace(/,$/, "");
         if (!plugins.includes("graphqlLoader()"))
           plugins += ", graphqlLoader()";

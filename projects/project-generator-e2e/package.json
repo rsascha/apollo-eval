@@ -1,0 +1,13 @@
+{
+  "name": "project-generator-e2e",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "playwright test",
+    "show-report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^24.1.0"
+  },
+  "packageManager": "pnpm@10.13.1"
+}
