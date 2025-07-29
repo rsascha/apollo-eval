@@ -1,6 +1,3 @@
-// data-testid="add-user-input"
-// data-testid="add-user-button"
-
 import { expect, test } from "@playwright/test";
 import { url } from "./url";
 
