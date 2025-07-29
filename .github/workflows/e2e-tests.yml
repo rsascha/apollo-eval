@@ -35,7 +35,7 @@ jobs:
         run: pnpm --filter create-vite-apollo-fs build
 
       - name: Generate test project
-        run: ./projects/project-generator/dist/generator.js --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
+        run: node ./projects/project-generator/dist/generator.js --destinationPath=myProject --apiName=my-api --webUiName=my-web-ui
 
       - name: Install dependencies in generated project
         run: |
