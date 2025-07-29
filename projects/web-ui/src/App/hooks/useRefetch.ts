@@ -24,6 +24,5 @@ export function useRefetch() {
       refetchMoviesWithActors();
     },
   });
-
   return;
 }

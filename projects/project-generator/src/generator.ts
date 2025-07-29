@@ -112,6 +112,12 @@ async function generateApiProject(config: ProjectConfig) {
     readTemplate("api/resolvers.ts")
   );
 
+  // Write types from template
+  await fs.writeFile(
+    path.join(srcDir, "types.ts"),
+    readTemplate("api/types.ts")
+  );
+
   // Write server.ts from template
   await fs.writeFile(
     path.join(srcDir, "server.ts"),
