@@ -1,6 +1,6 @@
 import ON_GREETINGS from "@/queries/OnGreetings.graphql";
 import type { OnGreetingsSubscription } from "@/types";
-import { useSubscription } from "@apollo/client";
+import { useSubscription } from "@apollo/client/react";
 
 export function Greetings() {
   const { data: subscriptionData, loading: subscriptionLoading } =

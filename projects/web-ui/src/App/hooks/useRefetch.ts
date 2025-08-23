@@ -1,14 +1,14 @@
+import GET_ACTORS_WITH_MOVIES_QUERY from "@/queries/GetActorsWithMovies.graphql";
+import GET_MOVIES_QUERY from "@/queries/GetMovies.graphql";
+import GET_MOVIES_WITH_ACTORS_QUERY from "@/queries/GetMoviesWithActors.graphql";
+import ON_MOVIES_RELOAD_SUBSCRIPTION from "@/queries/OnMoviesReload.graphql";
 import type {
   GetActorsWithMoviesQuery,
   GetMoviesQuery,
   GetMoviesWithActorsQuery,
   OnMoviesReloadSubscription,
 } from "@/types";
-import { useQuery, useSubscription } from "@apollo/client";
-import ON_MOVIES_RELOAD_SUBSCRIPTION from "@/queries/OnMoviesReload.graphql";
-import GET_MOVIES_QUERY from "@/queries/GetMovies.graphql";
-import GET_ACTORS_WITH_MOVIES_QUERY from "@/queries/GetActorsWithMovies.graphql";
-import GET_MOVIES_WITH_ACTORS_QUERY from "@/queries/GetMoviesWithActors.graphql";
+import { useQuery, useSubscription } from "@apollo/client/react";
 
 export function useRefetch() {
   const { refetch: refetchMovies } = useQuery<GetMoviesQuery>(GET_MOVIES_QUERY);

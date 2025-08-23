@@ -7,8 +7,8 @@ import type {
   GetActorsQuery,
   GetRandomWordQuery,
 } from "@/types";
-import { useMutation, useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useMutation, useQuery } from "@apollo/client/react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function AddMovie() {
@@ -20,14 +20,17 @@ export function AddMovie() {
   const { data: actorsData, loading: actorsLoading } =
     useQuery<GetActorsQuery>(GET_ACTORS_QUERY);
 
-  const { loading: randomWordLoading, refetch: refetchRandomWord } =
-    useQuery<GetRandomWordQuery>(GET_RANDOM_WORD_QUERY, {
-      onCompleted: (data) => {
-        if (data.randomWord && !title) {
-          setTitle(data.randomWord);
-        }
-      },
-    });
+  const {
+    loading: randomWordLoading,
+    refetch: refetchRandomWord,
+    data: randomWordData,
+  } = useQuery<GetRandomWordQuery>(GET_RANDOM_WORD_QUERY);
+
+  useEffect(() => {
+    if (randomWordData?.randomWord && !title) {
+      setTitle(randomWordData.randomWord);
+    }
+  }, [randomWordData, title]);
 
   const [addMovie, { loading: addingMovie, error }] = useMutation<
     AddMovieMutation,
