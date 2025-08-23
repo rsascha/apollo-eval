@@ -77,7 +77,7 @@ Sample Code:
 ```tsx
 import GET_ACTORS_QUERY from "@/queries/GetActors.graphql";
 import type { GetActorsQuery } from "@/types";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 
 export function Actors() {
   const { data, loading, error } = useQuery<GetActorsQuery>(GET_ACTORS_QUERY);
