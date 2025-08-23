@@ -1,6 +1,6 @@
 import GET_ACTORS_QUERY from "@/queries/GetActors.graphql";
 import type { GetActorsQuery } from "@/types";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 
 export function Actors() {

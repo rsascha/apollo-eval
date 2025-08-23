@@ -1,6 +1,5 @@
 // @ts-nocheck
-
-import { useMutation, useQuery, useSubscription } from "@apollo/client";
+import { useMutation, useQuery, useSubscription } from "@apollo/client/react";
 import React, { useState } from "react";
 import ADD_USER from "./queries/AddUser.graphql";
 import GET_HELLO from "./queries/GetHello.graphql";

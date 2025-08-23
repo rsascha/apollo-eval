@@ -1,6 +1,6 @@
 import GET_ACTORS_WITH_MOVIES_QUERY from "@/queries/GetActorsWithMovies.graphql";
 import type { GetActorsWithMoviesQuery } from "@/types";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 
 export function ActorsWithMovies() {

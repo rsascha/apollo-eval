@@ -1,6 +1,6 @@
 import GET_MOVIES_QUERY from "@/queries/GetMovies.graphql";
 import type { GetMoviesQuery } from "@/types";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { Link } from "react-router-dom";
 
 export function Movies() {

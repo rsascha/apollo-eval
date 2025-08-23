@@ -1,18 +1,18 @@
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { ApolloProvider } from "@apollo/client/react";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { createClient } from "graphql-ws";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import "./index.css";
 import { App } from "./App";
-import {
-  ApolloClient,
-  ApolloProvider,
-  HttpLink,
-  InMemoryCache,
-  split,
-} from "@apollo/client";
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { createClient } from "graphql-ws";
-import { getMainDefinition } from "@apollo/client/utilities";
+import "./index.css";
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000/graphql",
@@ -24,7 +24,7 @@ const wsLink = new GraphQLWsLink(
   })
 );
 
-const splitLink = split(
+const splitLink = ApolloLink.split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
